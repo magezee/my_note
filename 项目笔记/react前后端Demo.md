@@ -807,7 +807,7 @@ export default Config
 https://segmentfault.com/a/1190000021870763?utm_source=tag-newest
 ```
 
-由于已经在项目配置中配置了 `/src/app.ts` 为入口文件，因此修改该文件内容
+由于已经在项目配置中配置了 `/src/app.ts` 为入口文件，因此修改该文件内容，记得配置 `koa2-cors` 处理跨域
 
 ```ts
 import Koa from 'koa'
