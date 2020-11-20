@@ -64,6 +64,8 @@ console.log(typeof x);  // string
 
 ### Class
 
+class 相当于用原型链声明构造函数和实现继承的语法糖
+
 **类里面的共有属性和方法一定要加this使用**
 
 ```jsx
@@ -744,197 +746,9 @@ console.log(arr)	// [ 1, 2 ]
 console.log(arr)	// [ 1, 2 ]
 ```
 
-----
+#### 查询
 
-- **通过改变length截取数组**
-
-```jsx
-var arr = [1,2,3,4]
-arr.length = 2 	// [1,2]
-```
-
-----
-
-- **concat ( )**
-
-  复制原数组，添加指定元素进数组并返回新数组，添加元素为数组时，会将值取出来再添加
-
-```jsx
-var array=[1,2,3,4,5];   
-var array2=array.concat([6,7]);    //参数为数组
-console.log(array);    //[1, 2, 3, 4, 5]
-console.log(array2);   //[1, 2, 3, 4, 5, 6, 7]
-```
-
-​	  相当于扁平化了一层深度，因此可以用来实现数组扁平化
-
-```js
-var array=[1,2,3,4,5];   
-var array2=array.concat([6,7,[8,9]]);    
-
-array.push([6,7,[8,9]])
-console.log(array2);   // [ 1, 2, 3, 4, 5, 6, 7, [ 8, 9 ] ]
-console.log(array)     // [ 1, 2, 3, 4, 5, [ 6, 7, [ 8, 9 ] ] ]
-```
-
----
-
-- **slice()**
-
-  按指定下标切割数组，不会对原数组造成影响
-
-```js
-var s = "abcdefg";
-s.slice(0,4)    // "abcd"
-s.slice(2,4)    // "cd"
-s.slice(4)      // "efg"
-s.slice(3,-1)   // "def"
-s.slice(3,-2)   // "de"
-s.slice(-3,-1)  // "ef"
-```
-
-------
-
-- **reverse**
-
-  将数组反转，直接作用原数组
-
-```js
-let arr = [1,2,3,4]
-
-arr.reverse()	// [4,3,2,1]
-```
-
-----
-
-- **push( )**
-
-  直接在原数组上进行修改，添加指定元素，添加元素为数组时，不会将值取出来
-
-```jsx
-var array=[1,2,3,4,5];
-array.push([6,7]);    //参数为数组
-console.log(array);   //[1, 2, 3, 4, 5, [6, 7]]
-```
-
----
-
-- **shift( )** 
-
-  把数组的第一个元素从其中删除，并返回第一个元素的值（在原数组上进行更改）
-
-```jsx
-var array=[1,2,3,4,5];
-var result = array.shift();    
-console.log(result);	// 1
-console.log(array);   	// [2,3,4,5]
-```
-
----
-
-- **unshift**
-
-  将一个或多个元素添加到数组的开头，并返回新数组的长度
-
-```js
-let arr = [1, 2, 3, 4, 5]
-let res = arr.unshift(6, 7)
-console.log(res)   // 7
-console.log(arr)   // [6, 7, 1, 2, 3, 4, 5]  
-```
-
----
-
-- **pop( )**
-
-  把数组的最后一个元素从其中删除，并返回该元素的值（在原数组上进行更改）
-
-```jsx
-var array=[1,2,3,4,5];
-var result = array.pop();    
-console.log(result);	// 5
-console.log(array);   	// [1,2,3,4]
-```
-
-----
-
-- **map ( )**
-
-  遍历数组，对每一个下标内容作出逻辑更改并返回新的数组，map内部需要有return值，这个return值是指将当前遍历的结果返回，进入下一个遍历对象，而不是最终结果
-
-```jsx
-var array = [1,2,3]
-
-// 声明item变量指向具体遍历到的下标内容，然后声明一个函数，对具体内容作出具体逻辑更改
-var result = array.map(item => {
-    if(item == 2) {
-        item += 1
-    }
-   	return item		// 注意一定要有return值 否则返回为[undefined,undefined,undefined]   
-})
-// result = [1,3,3]
-```
-
-​	map还可以用于统一更改数组内数据类型
-
-```js
-var array = [0,1,2]
-var arr = array.map(Boolean)
-console.log(arr)	// true false false
-```
-
-----
-
-- **forEach ( )**
-
-  相当于for去遍历数组的语法糖，与map不同的是，一般不会去return返回值，直接影响原数组
-
-```js
-let arr = [0,1,2,3]
-arr.forEach((item, index, arr) => {
-	arr[index] = item + 3
-})
-console.log(arr)	// [3, 4, 5, 6]
-```
-
-​		需要配合下标更改数据，直接更改没有效果
-
-```js
-let arr = [0,1,2,3]
-arr.forEach(item => {
-	item += 1
-})
-console.log(arr)	// [ 0, 1, 2, 3 ]
-```
-
----
-
-- **filter ( )**
-
-  创建一个新的数组，遍历原数组返回满足指定条件的内容push进新数组（filter() 不会对空数组进行检测）
-
-```jsx
-var array = [1,3,5,7]
-var result = array.filter(item => item > 3)	// result = [5,7]
-```
-
-----
-
-- **join( )**
-
-  将数组内容转为字符串，默认逗号分隔，可以自定义分隔符，不会对原数组造成影响
-
-```jsx
-var arr = [1,2,3,4]
-var res = arr.join('/')	
-
-console.log(arr)        // [ 1, 2, 3, 4 ]
-console.log(res)        // '1/2/3/4'
-```
-
-----
-
-- **indexOf( )**
+- **indexOf**
 
   查找数组中指定元素的索引，从0开始，没有找到时返回-1
 
@@ -960,7 +774,7 @@ fun = (arr) => {
 
 ----
 
-- **includes( )**
+- **includes**
 
   检测数组中有无指定值，返回值为布尔值
 
@@ -988,11 +802,141 @@ fun = (arr) => {
 }
 ```
 
+
+
+----
+
+#### 更改
+
+- **通过改变length截取数组**
+
+```jsx
+var arr = [1,2,3,4]
+arr.length = 2 	// [1,2]
+```
+
+-----
+
+- **concat**
+
+  复制原数组，添加指定元素进数组并返回新数组，添加元素为数组时，会将值取出来再添加
+
+```jsx
+var array=[1,2,3,4,5];   
+var array2=array.concat([6,7]);    //参数为数组
+console.log(array);    //[1, 2, 3, 4, 5]
+console.log(array2);   //[1, 2, 3, 4, 5, 6, 7]
+```
+
+​	  相当于扁平化了一层深度，因此可以用来实现数组扁平化
+
+```js
+var array=[1,2,3,4,5];   
+var array2=array.concat([6,7,[8,9]]);    
+
+array.push([6,7,[8,9]])
+console.log(array2);   // [ 1, 2, 3, 4, 5, 6, 7, [ 8, 9 ] ]
+console.log(array)     // [ 1, 2, 3, 4, 5, [ 6, 7, [ 8, 9 ] ] ]
+```
+
+-----
+
+- **slice**
+
+  按指定下标切割数组，不会对原数组造成影响
+
+```js
+var s = "abcdefg";
+s.slice(0,4)    // "abcd"
+s.slice(2,4)    // "cd"
+s.slice(4)      // "efg"
+s.slice(3,-1)   // "def"
+s.slice(3,-2)   // "de"
+s.slice(-3,-1)  // "ef"
+```
+
 ------
+
+- **reverse**
+
+  将数组反转，直接作用原数组
+
+```js
+let arr = [1,2,3,4]
+
+arr.reverse()	// [4,3,2,1]
+```
+
+----
+
+- **push**
+
+  直接在原数组上进行修改，添加指定元素，添加元素为数组时，不会将值取出来
+
+```jsx
+var array=[1,2,3,4,5];
+array.push([6,7]);    //参数为数组
+console.log(array);   //[1, 2, 3, 4, 5, [6, 7]]
+```
+
+---
+
+- **shift** 
+
+  把数组的第一个元素从其中删除，并返回第一个元素的值（在原数组上进行更改）
+
+```jsx
+var array=[1,2,3,4,5];
+var result = array.shift();    
+console.log(result);	// 1
+console.log(array);   	// [2,3,4,5]
+```
+
+---
+
+- **unshift**
+
+  将一个或多个元素添加到数组的开头，并返回新数组的长度
+
+```js
+let arr = [1, 2, 3, 4, 5]
+let res = arr.unshift(6, 7)
+console.log(res)   // 7
+console.log(arr)   // [6, 7, 1, 2, 3, 4, 5]  
+```
+
+---
+
+- **pop**
+
+  把数组的最后一个元素从其中删除，并返回该元素的值（在原数组上进行更改）
+
+```jsx
+var array=[1,2,3,4,5];
+var result = array.pop();    
+console.log(result);	// 5
+console.log(array);   	// [1,2,3,4]
+```
+
+----
+
+- **join**
+
+  将数组内容转为字符串，默认逗号分隔，可以自定义分隔符，不会对原数组造成影响
+
+```jsx
+var arr = [1,2,3,4]
+var res = arr.join('/')	
+
+console.log(arr)        // [ 1, 2, 3, 4 ]
+console.log(res)        // '1/2/3/4'
+```
+
+----
 
 - **flat(n)**
 
-  用于数组扁平化，n默认是1，表示扁平化深度
+- 用于数组扁平化，n默认是1，表示扁平化深度
 
 ```js
 const arr = [1, [2, [3, [4, 5]]], 6];
@@ -1005,14 +949,80 @@ const res3 = arr.flat(3)      // [ 1, 2, 3, 4, 5, 6 ]
 const res = arr.flat(Infinity)	// [ 1, 2, 3, 4, 5, 6 ]
 ```
 
+
+
+----
+
+#### 遍历
+
+- **map**
+
+  遍历数组，对每一个下标内容作出逻辑更改并返回新的数组，map内部需要有return值，这个return值是指将当前遍历的结果返回，进入下一个遍历对象，而不是最终结果
+
+```jsx
+var array = [1,2,3]
+
+// 声明item变量指向具体遍历到的下标内容，然后声明一个函数，对具体内容作出具体逻辑更改
+var result = array.map(item => {
+    if(item == 2) {
+        item += 1
+    }
+   	return item		// 注意一定要有return值 否则返回为[undefined,undefined,undefined]   
+})
+// result = [1,3,3]
+```
+
+​	map还可以用于统一更改数组内数据类型
+
+```js
+var array = [0,1,2]
+var arr = array.map(Boolean)
+console.log(arr)	// true false false
+```
+
+----
+
+- **forEach**
+
+  相当于for去遍历数组的语法糖，与map不同的是，一般不会去return返回值，直接影响原数组，同时该方法遍历必须每一个元素都遍历到，不支持 `continue` 或者 `break` 来提前结束循环
+
+```js
+let arr = [0,1,2,3]
+arr.forEach((item, index, arr) => {
+	arr[index] = item + 3
+})
+console.log(arr)	// [3, 4, 5, 6]
+```
+
+​		需要配合下标更改数据，直接更改没有效果
+
+```js
+let arr = [0,1,2,3]
+arr.forEach(item => {
+	item += 1
+})
+console.log(arr)	// [ 0, 1, 2, 3 ]
+```
+
+---
+
+- **filter**
+
+  创建一个新的数组，遍历原数组返回满足指定条件的内容push进新数组（filter() 不会对空数组进行检测）
+
+```jsx
+var array = [1,3,5,7]
+var result = array.filter(item => item > 3)	// result = [5,7]
+```
+
 ----
 
 - **every和some**
 
   用于检测数组内元素是否符合指定条件（通过函数确定条件），不会对空数组进行检测，不会改变原始数组
-  
+
   every：如果有一个元素不满足则返回false，都满足条件返回true
-  
+
   some：如果任意一个元素可以满足条件，则返回true
 
 ```jsx
@@ -1029,7 +1039,77 @@ arr.some( function( item, index, array ){
 
 ----
 
-- **reduce( )**
+- **find**
+
+  遍历数组，直到返回 true，并返回结果，如果遍历完后都没有返回 true 则返回 undefined
+
+```js
+let array = [1, 2, 3, 4, 5]
+let res = array.find(function(item){
+    return res
+})
+console.log(res)  // 1
+```
+
+```js
+let array = [1, 2, 3, 4, 5]
+let res = array.find(function(item){
+    return item * 3 == 9
+})
+console.log(res)  // 3
+```
+
+---
+
+- **findIndex**
+
+  和 `find` 方法类似，返回的是满足条件的下标，如果遍历完返回-1
+
+```js
+let array = [1, 2, 3, 4, 5]
+let res = array.findIndex(function(item){
+    return item * 3 == 9
+})
+console.log(res)  // 2
+```
+
+-----
+
+- **for-in**
+
+  循环遍历，拿到的值是数组下标或者对象key值，可以随时中断遍历
+
+```js
+let arr = [5,6,7,8]
+for(let key in arr) {
+    console.log(key)        // 0 1 2 3
+    if(key == 2) break
+    console.log(arr[key])   // 5 6
+}
+```
+
+---
+
+- **for-of**
+
+  循环遍历，拿到的值是对应的数据，可以随时中断遍历，和 `for-in` 不同，不可以直接遍历对象，但是可以遍历 `Set` 和 `Map` 结构
+
+```js
+let arr = [5,6,7,8]
+for(let item of arr) {
+    console.log(item)        // 5 6 7 8
+}
+```
+
+
+
+
+
+----
+
+#### 通用
+
+- **reduce**
 
   传入一个方法，遍历数组，并为每一个元素执行该方法（不会更改原数组，最终返回的值为最后一个元素执行该方法的返回值，可选）
   
@@ -1171,7 +1251,7 @@ console.log(sum) //60
 
 ----
 
-- **splice()**
+- **splice**
 
   参数有三种：第一个参数表示参数的开始下标，第二个参数表示删除包括起始点自身往后的n个数据，其余参数表示在删除数据后往删除点插入指定数据，会对原数组造成影响，且返回删除（弹出）的数据
   
