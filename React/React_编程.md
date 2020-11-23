@@ -148,7 +148,7 @@ this.setState((preState, props) => {
 为了优化性能，在一个事件函数中，不管setState()被调用多少次，在函数执行结束以后，被归结为一次重新渲染, 这个等到最后一起执行的行为被称为batching
 ```
 
-即：触发了setState后，可能不会立刻触发更新操作，而是将多个更改后的state排成一个队列，在渲染的时候批量处理，直到下一次`render`调用或`shouldComponentUpdae`返回false时，才会进行state的更新
+即：触发了setState后，可能不会立刻触发更新操作，而是将多个更改后的state排成一个 `队列`，在渲染的时候批量处理，直到下一次`render`调用或`shouldComponentUpdae`返回false时，才会进行state的更新
 
 **可以简单理解为，更新状态发生在一次时间的同步操作后，异步操作前，且异步函数中的状态是立即更新的，整个setState函数的执行机制也是如此**
 
@@ -292,7 +292,7 @@ render() {
 
 <img  src="https://img-blog.csdnimg.cn/20200917172027429.png" style="margin:0;width:400px"/>
 
-
+**总结：setState是异步执行，位于微任务后，宏任务前，在宏任务前进行整合更新，因此出现了上述效果**
 
 
 
@@ -1644,7 +1644,7 @@ export default Demo
 
 渲染周期之间共享数据的存储
 
-state不能存储跨渲染周期的组件，因为state的参数每一次保存都会触发组件的重渲染
+state不能存储跨渲染周期的数据，因为state的参数每一次保存都会触发组件的重渲染
 
 ```tsx
 import React, { useState, useEffect, useRef } from 'react';

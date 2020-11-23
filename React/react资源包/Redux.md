@@ -1300,7 +1300,7 @@ function* Demo() {
 
 ##### take
 
-`take(pattern)`：参数是pattern类型，规则如上，它的作用主要体现在触发action后
+`take(pattern)`：参数是pattern类型
 
 take是阻塞的，主要用来监听 `action.type`，只有`dispatch` 或 `put` 对应的 `action.type` ，才会继续往下执行程序，否则会一直堵塞
 
