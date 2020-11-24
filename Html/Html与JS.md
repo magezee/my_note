@@ -130,7 +130,7 @@ var io = new IntersectionObserver(
 );
 ```
 
-`IntersectionObserverEntry`对象提供目标元素的信息，一共有六个属性
+`IntersectionObserverEntry`（交叉观察）对象提供目标元素的信息，一共以下属性
 
 - time：可见性发生变化的时间，是一个高精度时间戳，单位为毫秒
 - target：被观察的目标元素，是一个 DOM 节点对象
@@ -138,6 +138,14 @@ var io = new IntersectionObserver(
 - boundingClientRect：目标元素的矩形区域的信息
 - intersectionRect：目标元素与视口（或根元素）的交叉区域的信息
 - intersectionRatio：目标元素的可见比例，即 `intersectionRect`占 `boundingClientRect` 的比例，完全可见时为 `1`，完全不可见时小于等于 `0`
+- isIntersecting：目标是否可见
+- isVisible：目标是否隐藏
+
+<img src="https://img-blog.csdnimg.cn/20201125042753709.png" style="margin:0"/>
+
+
+
+<img src="https://upload-images.jianshu.io/upload_images/4060631-dfe6e9f2e933ae23.png" style="margin:0;width:900px"/>
 
 ```html
 <body>
@@ -168,4 +176,85 @@ var io = new IntersectionObserver(
 io.observe(document.querySelector('#a'));
 io.observe(document.querySelector('#b'));
 ```
+
+`IntersectionObserver`构造函数的第二个参数是一个配置对象。它可以设置以下属性
+
+- threshold：决定了什么时候触发回调函数。它是一个数组，每个成员都是一个门槛值，默认为[0]，即交叉比例（`intersectionRatio`）达到0时触发回调函数
+
+  ```js
+  // 表示当目标元素 0%、25%、50%、75%、100% 可见时，会触发回调函数
+  new IntersectionObserver(
+    entries => {/* ... */}, 
+    {
+      threshold: [0, 0.25, 0.5, 0.75, 1]
+    }
+  );
+  ```
+
+- root：指定目标元素所在的容器节点（即根元素），容器元素必须是目标元素的祖先节点
+
+- rootMargin：定义根元素的`margin`，用来扩展或缩小 `rootBounds`这个矩形的大小，从而影响 `intersectionRect` 交叉区域的大小
+
+  ```js
+  // 很多时候，目标元素不仅会随着窗口滚动，还会在容器里面滚动，容器内滚动也会影响目标元素的可见性，因此有必要进行额外设置
+  var opts = { 
+    root: document.querySelector('.container'),
+    rootMargin: "500px 0px" 
+  };
+  
+  var observer = new IntersectionObserver(
+    callback,
+    opts
+  );
+  ```
+
+**实现图片懒加载**
+
+html标签处理，将图片的真实url设置为自定义属性 `data-src` ，而`src`属性为占位图（下面代码中是一个文件很小的loading的动画gif），当元素可见时候用 data-src  的内容替换 src，从而达到懒加载
+
+```js
+<div class="img"><img data-src="https://gtd.alicdn.com/sns_logo/i1/TB17LgBNFXXXXaSXVXXSutbFXXX.jpg_240x240xz.jpg" src="https://img.alicdn.com/tps/i3/T1QYOyXqRaXXaY1rfd-32-32.gif">
+```
+
+```js
+// 实例化 默认基于当前视窗
+const io = new IntersectionObserver(callback)  
+
+let ings = document.querySelectorAll('[data-src]')
+
+function callback(entries){  
+    entries.forEach((item) => { 
+        if(item.isIntersecting){ // 当前元素可见
+            item.target.src = item.target.dataset.src  // 替换src
+            io.unobserve(item.target)  // 停止观察当前元素 避免不可见时候再次调用callback函数
+        }   
+    })
+}
+
+// io.observe接受一个DOM元素，添加多个监听 使用forEach
+imgs.forEach((item)=>{  
+    io.observe(item)
+})
+```
+
+**实现无限滚动**
+
+无限滚动时，最好在页面底部有一个页尾栏一旦页尾栏可见，就表示用户到达了页面底部，从而加载新的条目放在页尾栏前面，这样做的好处是，不需要再一次调用`observe()`方法，现有的`IntersectionObserver` 可以保持使用
+
+```js
+var intersectionObserver = new IntersectionObserver(
+    function (entries) {
+        // 如果页尾栏不可见，就返回，如果可见就继续请求数据
+        if (!entries[0].isIntersecting) return;
+        loadItems(10);	// 这里指的是重新去请求10条数据的方法
+        console.log('Loaded new items');
+    });
+
+// 开始观察
+intersectionObserver.observe(
+    document.querySelector('.scrollerFooter')
+);
+```
+
+
 

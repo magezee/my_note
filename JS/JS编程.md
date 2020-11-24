@@ -1755,7 +1755,7 @@ var str = `自由在字符串里插入变量${parms}`
 
 - 封装实参的对象arguments
 
-基本作用：调用方法时，传入方法的参数都会传进arguments里，无论有没有声明形参
+基本作用：调用方法时，传入方法的参数都会传进arguments里，无论有没有声明形参，是一个类数组对象
 
 ```jsx
 function fun(x,y){
@@ -2334,7 +2334,14 @@ const symbolTag = '[object Symbol]'
 
 触发高频事件后n秒内函数只会执行一次，如果n秒内高频事件再次被触发，则重新计算时间
 
-使用场景：如search搜索联想，用户在不断输入值时，用防抖来节约请求资源，一直输入不断进行搜索联想
+使用场景：
+
+- 登录、发短信等按钮避免用户点击太快，以致于发送了多次请求，需要防抖
+
+- 调整浏览器窗口大小时，resize 次数过于频繁，造成计算过多，此时需要一次到位，就用到了防抖
+
+- 文本编辑器实时保存，当无任何更改操作一秒后进行保存
+- search搜索联想，用户在不断输入值时不进行联想，用防抖来节约请求资源，
 
 **代码思路：每次触发事件时都取消之前的延时调用方法**
 
@@ -2345,10 +2352,10 @@ const symbolTag = '[object Symbol]'
 
 ```jsx
 function debounce(fn) {
-      let timeout = null; 		 // 通过闭包保存一个标记
+      let timer = null; 		 // 通过闭包保存一个标记
       return function () {		// return函数，使传入参数的时候不会立即执行函数
-        clearTimeout(timeout);  // 每当用户输入的时候把前一个 setTimeout clear 掉
-        timeout = setTimeout(() => { 	// 然后又创建一个新的 setTimeout, 这样就能保证输入字符后的 interval 间隔内如果还有字符输入的话，就不会执行 fn 函数
+        clearTimeout(timer);  // 每当用户输入的时候把前一个 setTimeout clear 掉
+        timer = setTimeout(() => { 	// 然后又创建一个新的 setTimeout, 这样就能保证输入字符后的 interval 间隔内如果还有字符输入的话，就不会执行 fn 函数
           fn.apply(this, arguments);	// setTimeout中所执行函数中的this，永远指向window，所以需要改变指向，记得传入隐式参数arguments
         }, 500);
       };
@@ -2359,7 +2366,7 @@ function sayHi() {
     }
 
 var inp = document.getElementById('inp');
-inp.addEventListener('input', debounce(sayHi)); // 防抖
+inp.addEventListener('input', debounce(sayHi)); 
 ```
 
 ---
@@ -2368,20 +2375,27 @@ inp.addEventListener('input', debounce(sayHi)); // 防抖
 
 高频事件触发，但在n秒内只会执行一次，所以节流会稀释函数的执行频率
 
+使用场景：
+
+- scroll 事件，每隔一秒计算一次位置信息等
+
+- 浏览器播放事件，每个一秒计算一次进度信息等
+
+- input 框实时搜索并发送请求展示下拉列表，每隔一秒发送一次请求 (也可做防抖)
+
 **代码思路：每次触发事件时都判断当前是否有等待执行的延时函数**
 
 - **使用闭包保存一个标记，因为一直有对象引用该函数，因此闭包的标志不会因为函数执行后便销毁，得以保存**
 
 ```jsx
 function throttle(fn) {
-      let canRun = true; // 通过闭包保存一个标记
+      let timer = null; // 通过闭包保存一个标记
       return function () {
-        if (!canRun) return; // 在函数开头判断标记是否为true，不为true则return
-        canRun = false; // 立即设置为false
+        if (timer) return; // 在函数开头判断标记是否为true，为true则return
         setTimeout(() => { // 将外部传入的函数的执行放在setTimeout中
           fn.apply(this, arguments);
-          // 最后在setTimeout执行完毕后再把标记设置为true(关键)表示可以执行下一次循环了。当定时器没有执行的时候标记永远是false，在开头被return掉
-          canRun = true;
+          // 最后在setTimeout执行完毕后再把标记设置null表示可以执行下一次循环了
+          timer = null;
         }, 500);
       };
     }

@@ -207,3 +207,13 @@ meta标签只有两个属性：`http-equiv` 和 `name`
 
 ---
 
+#### template
+
+html中的`template`标签中的内容在页面中不会显示。但是在后台查看页面DOM结构存在`template`标签。这是因为template标签天生不可见，它设置了`display:none;`属性
+
+```html
+<!--当前页面只显示"我是自定义表现abc"这个内容，不显示"我是template",这是因为template标签天生不可见-->
+<template><div>我是template</div></template>
+<abc>我是自定义表现abc</abc>
+```
+

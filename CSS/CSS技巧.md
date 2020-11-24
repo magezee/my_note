@@ -927,6 +927,25 @@ import 'index.less'
 
 <img src="https://img-blog.csdnimg.cn/2020053016421710.png" style="margin:0" />
 
+---
+
+### 固定宽高比
+
+实现一个元素在未知自身宽高的情况下实现自身宽高比
+
+利用 padding 在设定 % 值时，无论高宽都是选择父元素的宽度来做相对值的特性
+
+```less
+// 块状元素A是B的父元素，A有宽度值，B的宽度和A一样，高度由padding-top或bottom撑开，是父元素的40%，因此可以实现宽高比为5:2
+.A {
+    width: 30%;
+}
+
+.B {
+    padding-bottom: 40%;
+}
+```
+
 
 
 
