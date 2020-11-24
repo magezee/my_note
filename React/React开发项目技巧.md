@@ -35,6 +35,35 @@ return (
 
 
 
+---
+
+### 重复生成多个组件
+
+react 中，生成重复组件一般使用是通过数组的形式去形成，一个是因为要设置 `key`  的值，另一个原因是不能直接在 jsx 中写循环语句
+
+```jsx
+function ComponentTest() {
+    const arr = [
+        {id:1, data:'a'},
+        {id:2, data:'b'} ,
+        {id:3, data:'c'},
+    ]
+
+    return (
+        <div className='content'>
+        	{
+                arr.map((item) => {
+            		return <div key={item.id}>{item.data}</div> 
+                })
+            }
+        </div>
+        
+    )
+}
+```
+
+
+
 -----
 
 ### 操作表单
