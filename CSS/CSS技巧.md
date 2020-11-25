@@ -720,9 +720,9 @@ main {
 
 ### 纯css实现点击控制显示影藏
 
-使用label与check表单绑定，点击label元素可以控制check的true/false
+使用label与check表单绑定，点击label元素可以控制check的 `true/false`
 
-通过伪类选择表单check的选中状态以此控制选中和未选中的样式
+通过伪类选择表单check的选中状态以此控制选中和未选中的样式，然后隐藏表单
 
 ```html
 <main>
@@ -944,6 +944,40 @@ import 'index.less'
 .B {
     padding-bottom: 40%;
 }
+```
+
+
+
+---
+
+### 自适应
+
+如实现左侧布局固定300px，右侧自适应
+
+```jsx
+<div class="container">
+	<div c;ass="left"/>
+    <div class="main"/>
+</div>
+```
+
+使用 flex 布局即可
+
+```less
+.container {
+  display: flex;
+    .left {
+  		flex-basis: 300px;
+        flex-shrink: 0;		// 为了防止main过大挤压left，需要禁止挤压
+	}
+    .main {
+  		flex-grow: 1;
+	}
+}
+
+
+
+
 ```
 
 

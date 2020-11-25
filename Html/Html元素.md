@@ -163,6 +163,57 @@ meta标签只有两个属性：`http-equiv` 和 `name`
 
 
 
+---
+
+#### label
+
+`<label>` 标签为 input 元素定义标注，label 元素不会向用户呈现任何特殊效果。不过，它为鼠标用户改进了可用性，如果在 label 元素内点击文本，就会触发此控件。就是说，当用户选择该标签时，浏览器就会自动将焦点转到和标签相关的表单控件上
+
+`<label> ` 标签的 for 属性应当与相关元素的 id 属性相同
+
+可以是用该标签配合 css 实现巧妙的效果，如仅用 CSS 实现切换相关功能
+
+- 使用label与check表单绑定，点击label元素可以控制check的 `true/false`
+
+- 通过伪类选择表单check的选中状态以此控制选中和未选中的样式，隐藏不需要显示的表单
+
+```html
+<main>
+    <label className='btn' for="control">按钮</label>
+    <input type="checkbox" id="control" />
+    <div className='element'>控制显示的元素</div>
+</main>
+```
+
+```less
+main {
+    .btn {
+        background-color: #ddd;
+        text-align: center;
+        width: 100px;
+        border: solid 1px;
+        border-radius: 6%;
+    }
+    
+	input:checked  { 
+        & + .element {      // 选中状态下选择紧邻自己的element元素（不这样写选择不了）
+            display: block;
+        }
+    }
+
+    .element {
+        display: none;		// 默认不显示
+    }
+	
+    input {
+        display: none;		// 不显示check，如果显示就会跟配图一样
+    }
+
+}
+```
+
+<img src="https://img-blog.csdnimg.cn/20200529153134365.png" style="margin:0" />
+
 ----
 
 ### 语义化标签

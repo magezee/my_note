@@ -693,6 +693,105 @@ async适用于按需加载、逻辑独立的JS模块，不会因为调用顺序�
 
 ---
 
+#### 资源优先级
+
+ 在浏览器中，不同的资源在浏览器渲染的不同阶段进行加载的优先级不同
+
+```
+Highest 	最高
+Hight 		高
+Medium 		中等
+Low 		低
+Lowest 		最低
+```
+
+其中主资源HTML和CSS的优先级最高，其他资源根据情况的不同优先级不一
+
+JS脚本根据它们在文件中的位置是否异步、延迟或阻塞获得不同的优先级：
+
+- 网络在第一个图片资源之前阻塞的脚本在网络优先级中是中级
+
+- 网络在第一个图片资源之后阻塞的脚本在网络优先级中是低级
+
+- async／defer表示的脚本（无论在什么位置）在网络优先级中是很低级
+
+图片（视口可见）将会获得相对于视口不可见图片（低级）的更高的优先级（中级），所以某些程度上浏览器将会尽量懒加载这些图片。低优先级的图片在布局完成被视口发现时，将会获得优先级提升
+
+---
+
+##### preload
+
+```html
+<link rel=“preload”> 
+```
+
+preload 提供了一种声明式的命令，让浏览器提前加载指定资源(加载后并不执行)，需要执行时再执行
+
+这样做的好处在于：
+
+- 将加载和执行分离开，不阻塞渲染和document的onload事件
+
+- 提前加载指定资源，不再出现依赖的font字体隔了一段时间才刷出的情况
+
+使用 link 标签静态标记需要预加载的资源
+
+```jsx
+// preload 使用as属性加载的资源将会获得与资源type属性所拥有的相同的优先级
+// 如preload as="style" 将会获得比 as=“script” 更高的优先级
+// 不带as属性的 preload 的优先级将会等同于异步请求
+<link rel="preload" href="/path/to/style.css" as="style">
+```
+
+使用 preload 后，不管资源是否使用都将提前加载。若不确定资源是必定会加载的，则不要错误使用 preload，以免本末导致，给页面带来更沉重的负担
+
+Preload 有 `as` 属性，浏览器可以设置正确的资源加载优先级，这种方式可以确保资源根据其重要性依次加载， 所以，Preload既不会影响重要资源的加载，又不会让次要资源影响自身的加载；浏览器能根据 as 的值发送适当的 Accept 头部信息；浏览器通过 as 值能得知资源类型，因此当获取的资源相同时，浏览器能够判断前面获取的资源是否能重用
+
+```
+如果忽略as属性，或者错误的as属性会使preload等同于XHR请求，浏览器不知道加载的是什么，因此会赋予此类资源非常低的加载优先级
+如果对所preload的资源不使用明确的as属性，将会导致二次获取
+```
+
+　Preload 的与众不同还体现在 `onload` 事件，可以定义资源加载完毕后的回调函数
+
+```html
+<link rel="preload" href="..." as="..." onload="preloadFinished()">
+
+<!-- 可以令preload的样式表立即生效 -->
+<link rel="preload" href="style.css" onload="this.rel=stylesheet">
+```
+
+对跨域的文件进行preload时，必须加上 crossorigin 属性
+
+```html
+<link rel="preload" as="font" crossorigin href="https://at.alicdn.com/t/font_zck90zmlh7hf47vi.woff">
+```
+
+---
+
+##### prefetch
+
+```html
+<link rel=“prefetch”>
+```
+
+它的作用是告诉浏览器加载下一页面可能会用到的资源，注意，是下一页面，而不是当前页面。因此该方法的加载优先级非常低，也就是说该方式的作用是加速下一个页面的加载速度
+
+```
+preload：告诉浏览器页面必定需要的资源，浏览器一定会加载这些资源
+refetch：告诉浏览器页面可能需要的资源，浏览器不一定会加载这些资源
+对于当前页面很有必要的资源使用 preload，对于可能在将来的页面中使用的资源使用 prefetch
+```
+
+用法和preload类似
+
+```html
+<link rel="preload"   href="https://at.alicdn.com/t/font_zck90zmlh7hf47vi.woff" as="font">
+```
+
+
+
+---
+
 ## 偏编程
 
 ### 操作浏览器和文档
