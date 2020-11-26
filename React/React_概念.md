@@ -367,7 +367,7 @@ renderToString(<Conpoment>)
 
 ### 组件key
 
-将组件存入一个数组时，需要给每个组件一个单独的 key ，React 用这个 key 作为组件的身份来识别具体对哪个组件做增删改各种操作。通常使用这个组件的唯一标识来作为key值
+将相同类型组件存入一个数组时，需要给每个组件一个单独的 key ，React 用这个 key 作为组件的身份来识别具体对哪个组件做增删改各种操作。通常使用这个组件的唯一标识来作为key值
 
 一般而言，在枚举数组map并返回组件时，需要为组件绑定key
 
@@ -899,6 +899,28 @@ Controller是MVC中的数据和视图的协调者
 - VM：ViewModel
 
 
+
+---
+
+### 性能优化
+
+- 渲染列表时加Key
+
+- 自定义事件、DOM事件及时销毁
+
+- 合理使用异步组件
+
+- 减少函数 bind this 的次数
+
+- 合理使用 shouldComponentUpdate、PureComponent 和 memo
+
+- 合理使用 ImmutableJS
+
+- webpack层面优化
+
+- 前端通用是能优化，如图片懒加载
+
+- 使用SSR
 
 
 

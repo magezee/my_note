@@ -343,6 +343,24 @@ handleInputChange = (event) => {
 }
 ```
 
+事件内容
+
+```jsx
+<a href="www.baidu.com" onClick={this.getEvent} target="blank">Get Event</a>
+
+getEvent = (event) => {
+    event.preventDefault() // 阻止默认事件
+    event.stopPropagation() // 阻止事件冒泡
+    console.log(event) // 非原生的 Event
+    console.log(event.nativeEvent) // 获取原生的 Event
+    console.log(event.nativeEvent.target) // 绑定事件的对象，这里为 <a></a>
+    console.log(event.nativeEvent.currentTarget) // 触发事件的对象，这里为 document
+}
+
+```
+
+
+
 ----
 
 **需要用bind的详细原因：**
@@ -1210,6 +1228,14 @@ useEffect(() => {
 }, [value1, value2, value3 ...]) 	// 仅在value更改时执行
 ```
 
+如果写入一个空数组，则表示不会发生更新，只会在挂载完毕和销毁执行该函数，如果没有声明销毁触发方法，实际用法就和 `componentDidMount` 完全一样了
+
+```js
+useEffect(() => {
+  	...
+}, []) 
+```
+
 -----
 
 **绑定事件时需要在更新组件时销毁事件**
@@ -1675,46 +1701,6 @@ export default Demo
 
 ----
 
-#### useReducer
-
-引入 Reducer 功能
-
-```tsx
-const [state, dispatch] = useReducer(reducer, initialState);
-```
-
-```tsx
-import React, {useReducer} from 'react'
-
-// reducer
-const myReducer = (state, action) => {
-  switch(action.type)  {
-    case('countUp'):
-      return  {
-        ...state,
-        count: state.count + 1
-      }
-    default:
-      return  state;
-  }
-}
-
-// 组件
-function App() {
-  const [state, dispatch] = useReducer(myReducer, { count:   0 });
-  return  (
-    <div className="App">
-      <button onClick={() => dispatch({ type: 'countUp' })}>
-        +1
-      </button>
-      <p>Count: {state.count}</p>
-    </div>
-  );
-}
-```
-
-----
-
 #### useContext
 
 和 Context 差不多，还是要使用 ` createContext()` 
@@ -1780,7 +1766,45 @@ const Demo:React.FC = () => {
 export default Demo
 ```
 
+-----
 
+#### useReducer
+
+引入 Reducer 功能
+
+```tsx
+const [state, dispatch] = useReducer(reducer, initialState);
+```
+
+```tsx
+import React, {useReducer} from 'react'
+
+// reducer
+const myReducer = (state, action) => {
+  switch(action.type)  {
+    case('countUp'):
+      return  {
+        ...state,
+        count: state.count + 1
+      }
+    default:
+      return  state;
+  }
+}
+
+// 组件
+function App() {
+  const [state, dispatch] = useReducer(myReducer, { count:   0 });
+  return  (
+    <div className="App">
+      <button onClick={() => dispatch({ type: 'countUp' })}>
+        +1
+      </button>
+      <p>Count: {state.count}</p>
+    </div>
+  );
+}
+```
 
 ----
 
@@ -1889,6 +1913,10 @@ const App: React.FC = () => {
   即不在条件，循环，函数嵌套中使用hook，确保hook在函数组件的最顶层调用，这样能确保hook在渲染中能按相同的顺序调用
 
 - 只在 React 函数中调用 Hook
+
+```
+只在顶层调用原因：https://zh-hans.reactjs.org/docs/hooks-rules.html#explanation
+```
 
 
 

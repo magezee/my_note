@@ -478,3 +478,30 @@ const link = document.createElement('a')
 a.href = url	// <a href='/one-fish?two=fish#red-fish-blue-fish'></a>
 ```
 
+
+
+---
+
+### 配置路由懒加载
+
+`<React.Suspense>` 主要用于在懒加载的过程中给用户先加载的预览组件，通过`fallback` 设置预览组件
+
+```jsx
+import React from 'react'
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
+
+const Home = React.lazy(() => import('./pages/Home'))
+const Detail = React.lazy(() => import('./pages/Detail'))
+
+const App = () => (
+    <BrowserRouter>
+        <React.Suspense fallback={<div>Loading...</div>}>
+            <Switch>
+                <Route exact path="/" component={Home} />
+                <Route exact path="/detail" component={Detail} />
+            </Switch>
+        </React.Suspense>
+    </BrowserRouter>
+)
+```
+

@@ -91,7 +91,7 @@ http://www.ruanyifeng.com/blog/2016/11/intersectionobserver_api.html
 常见使用场景：图片懒加载，在未滑动到图片范围的时候不加载图片，判断图片进入视口范围后开始加载
 ```
 
-有很多种实现方式，目前最简单的是一个已经封装好的 API —— `IntersectionObserver`，一个浏览器原生提供的构造函数
+有很多种实现方式，目前最简单的是一个已经封装好的 API —— `IntersectionObserver`（交叉观察），一个浏览器原生提供的构造函数
 
 ```js
 // callback是可见性变化时的回调函数，option是配置对象（该参数可选）
@@ -130,7 +130,7 @@ var io = new IntersectionObserver(
 );
 ```
 
-`IntersectionObserverEntry`（交叉观察）对象提供目标元素的信息，一共以下属性
+`IntersectionObserverEntry`对象提供目标元素的信息，一共以下属性
 
 - time：可见性发生变化的时间，是一个高精度时间戳，单位为毫秒
 - target：被观察的目标元素，是一个 DOM 节点对象
