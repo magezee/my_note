@@ -906,7 +906,7 @@ console.log(array);   	// [2,3,4,5]
 
 - **unshift**
 
-  将一个或多个元素添加到数组的开头，并返回新数组的长度
+  将一个或多个元素添加到数组的开头，并返回新数组的长度（在原数组上进行更改）
 
 ```js
 let arr = [1, 2, 3, 4, 5]
@@ -989,6 +989,26 @@ var array = [0,1,2]
 var arr = array.map(Boolean)
 console.log(arr)	// true false false
 ```
+
+​	注意，map 对空元素会进行跳过，不进行操作
+
+```js
+const arr = new Array(4)
+arr[1] = 1
+arr[2] = 2
+arr[4] = 4
+let res = arr.map(item => 'data')
+console.log(res)	// [ <1 empty item>, 'data', 'data', <1 empty item>, 'data' ]
+```
+
+​	因此不能用来填充数组
+
+```js
+Array(100).map(x => 1)		// 数组的每一个元素为空
+Array(100).fill(1)			// 数组的每一个元素为1
+```
+
+
 
 ----
 
@@ -1299,8 +1319,6 @@ console.log(res)	// [ 2, 3 ]
 
 ### 操作对象
 
-**实例方法**
-
 - **hasOwnProperty( )**
 
   检查对象中是否包含某个属性，且此属性必须为自身而非从原型链上继承而来
@@ -1317,7 +1335,22 @@ console.log(obj.x)  // 1
 console.log(obj.hasOwnProperty('x'))        // false
 ```
 
-- **isPrototypeOf( )**
+- **propertyIsEnumerable( )**
+
+  用于判断一个对象的某个属性是否可被是否可以由`for...in`循环枚举（原型链继承的属性不是可枚举）
+
+```js
+const object1 = {};
+const array1 = [];
+object1.property1 = 42;
+array1[0] = 42;
+
+object1.propertyIsEnumerable('property1');		// true
+array1.propertyIsEnumerable(0);					// true
+array1.propertyIsEnumerable('length');			// false
+```
+
+- **Object.isPrototypeOf( )**
 
   用于测试一个对象是否存在于另一个对象的原型链上
 
@@ -1339,11 +1372,20 @@ Object.prototype.isPrototypeOf(baz); 	// true
 console.log(baz.isPrototypeOf(Bar))     // false，构造函数不在原
 ```
 
+- **Object.getPrototypeOf()**
 
+  返回指定对象的原型
 
-----
+```js
+const prototype1 = {};
+const object1 = Object.create(prototype1);
 
-**静态方法**
+console.log(Object.getPrototypeOf(object1) === prototype1);		// true
+```
+
+- **Object.isPlainObject**
+
+  判断一个对象是否为纯对象
 
 - **Object.keys( )**
 
@@ -1746,6 +1788,13 @@ var str = `自由在字符串里插入变量${parms}`
 ----
 
 ### arguments和rest
+
+可以通过直接 `length` 属性查看函数写明的形参个数
+
+```js
+function test (a, b, c) {}
+console.log(test.length)    // 3
+```
 
 **arguments**
 
