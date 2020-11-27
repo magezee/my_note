@@ -1110,7 +1110,6 @@ sagaMiddleware.run(rootSaga);
 
 一般会在项目中建立一个 `common`  目录用于编写公共的的一些代码，如
 
-- 
 - 配置（config）：用于导出公共的配置代码，如请求的地址
 - 枚举（enum）：用于导出公共的枚举
 - 接口（interface）：用于导出相应的接口

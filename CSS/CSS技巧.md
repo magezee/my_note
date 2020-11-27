@@ -63,7 +63,7 @@
 - 给父元素设置行内块元素显示：`display:inline-block`（只给子元素设置无法实现功能）
 - 父元素设置绝对定位：`position:absolute`
 - 设置浮动：`float:left`
-- 父元素设置flex布局：`display:flex`
+- 父元素设置flex布局：`display:flex`（待确认，目前只确认高度撑开）
 
 ---
 
