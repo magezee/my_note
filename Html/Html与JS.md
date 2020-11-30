@@ -258,3 +258,102 @@ intersectionObserver.observe(
 
 
 
+-----
+
+### 事件捕获与冒泡
+
+DOM 事件先捕获，后冒泡，默认执行顺序是从子元素开始往上触发
+
+```html
+<div id='div'>
+    <div id='div1'>
+        <div id='div2'>
+            <div id='div3'></div>
+        </div>
+    </div>
+</div>
+```
+
+```js
+div1.οnclick=function(){ alert("div1") }
+div2.οnclick=function(){ alert("div2") }
+div3.οnclick=function(){ alert("div3") }
+```
+
+默认冒泡事件，点击 div3 弹出顺序为 `div3 → div2 → div1` 
+
+如果使用绑定事件监听函数 `addEventListener()` 来添加事件，则可以更改事件处理机制
+
+```js
+// 指定事件处理机制，默认false，事件冒泡，true为事件捕获
+// 此时点击 div3，弹除顺序为 div1 → div2 → div3
+div1.addEventListener('click',function(event){
+	alert("div1")
+},true);
+div2.addEventListener('click',function(event){
+	alert("div2")
+},true);
+div3.addEventListener('click',function(event){
+	alert("div3")
+},true);
+```
+
+**stopPropagation**
+
+在事件方法中直接使用 `stopPropagation` 来取消冒泡
+
+```js
+div3.addEventListener('click',function(event){
+    event.stopPropagation()
+    alert("div3")
+});
+```
+
+**事件委托**
+
+```js
+window.onload = function() {
+    document.getElementById("div").addEventListener("click", function() {
+        let eTarget = event.target;
+        switch(eTarget.id) {
+            case "div1":
+                console.log("点击的div1")
+                break;
+
+            case "div2":
+                console.log("点击的div2")
+                break;
+
+            case "div3":
+                console.log("点击的div3")
+                break;
+        }
+        event.stopPropagation()
+    })
+}
+```
+
+
+
+---
+
+### 默认事件
+
+在HTML中,基本上所有的事件都有一个默认行为，如
+
+- Submit按钮: 在form表单中的，提交form表单中的数据到服务器
+- Button: 在PC中不做任何事情， 在手机浏览器中，若是在form中,则是submit
+- a标签: 默认将当前页面跳转为a标签中href的地址
+
+**阻止默认事件**
+
+在事件方法中执行 `preventDefault()`
+
+```js
+function eventHandle(event) {
+	event.preventDefault()
+}
+```
+
+
+

@@ -689,6 +689,41 @@ async适用于按需加载、逻辑独立的JS模块，不会因为调用顺序�
 对于动态创建的<script>标签，默认async为true
 ```
 
+**效果**
+
+在 html 中，如果在 DOM 节点声明前去获取 DOM，是没办法获取到的
+
+得写在 DOM 后面，或者写在 `window.onload = function() {}` 中
+
+```html
+<body>
+    <script>
+        var div = document.getElementById('A')
+        console.los(div)	// null
+    </script>
+    <div id='A'></div>
+</body>
+```
+
+```html
+<body> 
+    <div id='A'></div>
+    <script> ... </script>
+</body>
+```
+
+如果使用了 `defer` 或 `async`，则推迟下载执行
+
+```html
+<body>
+    <script async>
+        var div = document.getElementById('A')
+        console.los(div)	// DOM
+    </script>
+    <div id='A'></div>	
+</body>
+```
+
 
 
 ---
