@@ -748,9 +748,11 @@ console.log(arr)	// [ 1, 2 ]
 
 #### 查询
 
-- **indexOf**
+- **indexOf(targer, fromIndex)**
 
   查找数组中指定元素的索引，从0开始，没有找到时返回-1
+  
+  默认遍历返回第一个满足条件的下标，可以通过设置第二个参数来限制遍历起始下标，默认0
 
 ```jsx
 var arr = ['aa', 'bb', 'cc']
@@ -758,7 +760,14 @@ arr.indexOf('bb')	// 1
 arr.indexOf('dd')	// -1
 ```
 
-​		可用于去除数组中的重复数据
+```js
+var arr = [7,8,7,9,7]
+arr.indexOf(7)	    // 0
+arr.indexOf(7,1)    // 2
+arr.indexOf(7,3)    // 4
+```
+
+​	可用于去除数组中的重复数据
 
 ```jsx
 fun = (arr) => {
@@ -774,9 +783,11 @@ fun = (arr) => {
 
 ----
 
-- **includes**
+- **includes(targer, fromIndex)**
 
   检测数组中有无指定值，返回值为布尔值
+  
+  默认从下标0开始遍历，可以通过第二个参数指定开始遍历起点下标
 
 ```jsx
 let site = ['runoob', 'google', 'taobao'];

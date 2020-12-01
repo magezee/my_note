@@ -499,7 +499,7 @@ a[href$="doc"] {
 
 **特性**
 
-- 同一个BFC下的元素，margin 会发生重叠
+- 同一个BFC下的元素，margin 会发生重叠（上下的margin会发生重叠，左右一般不会）
 
 ```jsx
 // margin会发生重叠，间隔只有100px而非200px
