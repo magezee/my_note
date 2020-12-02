@@ -9,7 +9,7 @@ twoSum([2,7,11,15],18)	// [1,2]
 twoSum([3,3,3],6)		// [0,1]
 ```
 
-思路：
+**思路：**
 
 - 既然有和关系，就要用 target 和当前值拿到另外一个值，那当然是 `targer - 当前值`
 - 判断另外一个值是否也在该数组中，如果在，说明直接拿另外一个值就行
@@ -42,7 +42,7 @@ console.log(twoSum(arr,6))     // [ 1, 2 ]
 
 ### 回文数
 
-思路：
+**思路：**
 
 - 数组有反转的 API，因此转成数组来坐
 - 数组比较需要转为 String 来比较
@@ -69,6 +69,10 @@ console.log(isPalindrome('abcddcba'))	// true
 ### 罗马数字
 
 <img src="https://img-blog.csdnimg.cn/20201201171833958.png" style="margin:0" >
+
+**思路：**
+
+- 使用 `key-value` 的数据格式将有规律的规则保存起来
 
 ```js
 function romanToInt(str) {
@@ -105,4 +109,77 @@ console.log(romanToInt('MCMXCIV'))		// 1994
 
 
 ---
+
+### 最长公共前缀
+
+<img src="https://img-blog.csdnimg.cn/2020120209541782.png" style="margin:0" >
+
+**思路：**
+
+- 用正则表达式硬怼
+
+```js
+function longestCommonPrefix(strArr) {
+    let result = true
+    let res = ''
+    for(let count=0; count<strArr[0].length; count++) {
+        let str = strArr[0].slice(0, count+1)
+        let reg = new RegExp(`^${str}`)
+
+        for(let i=0; i<strArr.length; i++) {
+            result = result && reg.test(strArr[i])
+            if(!result) {
+                return res
+            }
+        }
+        res = str
+    }
+}
+
+console.log(longestCommonPrefix(["flower","flow","flight"]))    // fl
+```
+
+
+
+---
+
+### 删除排序数组中重复项
+
+<img src="https://img-blog.csdnimg.cn/20201202145655599.png" style="margin:0" >
+
+**思路：**
+
+- 由于是在原数组上进行更改，如果在遍历中删除数组元素，会导致每个数据的下标发生变动，遍历下标就可能无法遍历到每个数据，因此每次删除数据后都需要收到将下标 -1
+
+```js
+// 数组是有序排列的情况
+function removeDuplicates(arr) {
+    for(let i=0; i<arr.length; i++) {
+        if(arr[i] === arr[i+1]){    
+            arr.splice(i,1)
+            i -=1
+        }  
+    }
+    return arr.length
+}
+
+removeDuplicates([0,0,1,1,1,2,2,2,3,3,4])	// [0,1,2,3,4]
+```
+
+```js
+// 数组是无序排列的情况
+function removeDuplicates(arr) {
+    for(let i=0; i<arr.length; i++) {
+        let index = arr.indexOf(arr[i],i+1)
+        if(index !== -1) {
+            arr.splice(index,1)
+            i-=1    
+        } 
+    }
+    console.log(arr)
+    return arr.length
+}
+
+removeDuplicates([0,0,1,2,1,1,2,2,2,3,3,4])		// [0,1,2,3,4]
+```
 

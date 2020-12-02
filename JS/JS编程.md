@@ -354,6 +354,7 @@ console.log(str.slice(3,-2));   // de  结束标志位倒数第二个字符串
 var str = 'abc,def,ghi,jkl';
 var result = str.split(',');    // 以 , 为分隔符
 console.log(result);            // ['abc','def','ghi','jkl']
+console.log(str)                // 'abc,def,ghi,jkl'
 ```
 
 - **toUpperCase( )**
@@ -1141,8 +1142,6 @@ for(let item of arr) {
     console.log(item)        // 5 6 7 8
 }
 ```
-
-
 
 
 
