@@ -292,7 +292,7 @@ render() {
 
 <img  src="https://img-blog.csdnimg.cn/20200917172027429.png" style="margin:0;width:400px"/>
 
-**总结：setState是异步执行，位于微任务后，宏任务前，在宏任务前进行整合更新，因此出现了上述效果**
+**总结：setState是异步执行，属于微任务，执行顺序在Promise后，宏任务前，在宏任务前进行整合更新，因此出现了上述效果**
 
 
 

@@ -514,6 +514,21 @@ class App extends PureComponent {
 
 <img src="https://img-blog.csdnimg.cn/20200916154512888.png#pic_center" style="margin:0; ">
 
+---
+
+**memo**
+
+和 `PureComponent ` 功能类似，只是这用于函数式组件而非类组件
+
+```js
+function Component(props: IProps){
+  return <div>{props.name}</div>;
+}
+const Component = React.memo(Component);
+```
+
+-----
+
 **Component和PureComponent区别**
 
 继承Component时，只要state有发生改变，，就会触发重新渲染，而不管这个state里的内容是否会和原来一样
@@ -905,22 +920,78 @@ Controller是MVC中的数据和视图的协调者
 ### 性能优化
 
 - 渲染列表时加Key
-
 - 自定义事件、DOM事件及时销毁
-
 - 合理使用异步组件
-
 - 减少函数 bind this 的次数
-
 - 合理使用 shouldComponentUpdate、PureComponent 和 memo
-
 - 合理使用 ImmutableJS
-
 - webpack层面优化
-
 - 前端通用是能优化，如图片懒加载
-
 - 使用SSR
+
+**压缩文件大小**
+
+- Webpack 帮弄好了
+
+**避免重新渲染**
+
+- 类组件 `React.PureComponent`
+
+```js
+class App extends PureComponent {}
+```
+
+- 函数式组件使用 `React.memo` 包装成高阶组件
+
+```js
+function Component(props: IProps){
+  return <div>{props.name}</div>;
+}
+export default React.memo(Component);
+```
+
+**懒加载**
+
+- 使用第三方包 `react-loadable` 懒加载组件
+
+```jsx
+import Loadable from 'react-loadable';
+
+//通用的过场组件
+const loadingComponent =()=>{
+    return (
+        <div>loading</div>
+    ) 
+}
+
+const Admin = Loadable({
+    loader:() => import('./Admin.js'),
+    loading:loadingComponent
+});
+
+export { Admin }
+```
+
+- 使用 `IntersectionObserver` API 懒加载请求数据或图像
+
+```js
+var intersectionObserver = new IntersectionObserver(
+    function (entries) {
+        // entries[0]代表页尾栏元素，如果不可见，就返回，如果可见就继续请求数据
+        if (!entries[0].isIntersecting) return;
+        loadItems(10);	// 这里指的是重新去请求10条数据的方法
+        console.log('Loaded new items');
+    });
+
+// 开始观察
+intersectionObserver.observe(
+    document.querySelector('.scrollerFooter')
+);
+```
+
+
+
+
 
 
 

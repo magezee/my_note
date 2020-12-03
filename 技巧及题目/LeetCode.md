@@ -183,3 +183,21 @@ function removeDuplicates(arr) {
 removeDuplicates([0,0,1,2,1,1,2,2,2,3,3,4])		// [0,1,2,3,4]
 ```
 
+
+
+---
+
+### 移出元素
+
+<img src="https://img-blog.csdnimg.cn/20201202154406162.png" style="margin:0" >
+
+```js
+function removeElement(nums, val) {
+    while(nums.includes(val)) {
+        nums.splice(nums.indexOf(val),1)
+    }
+    return nums.length
+};
+removeElement([0,1,2,2,3,0,4,2],2)      // [ 0, 1, 3, 0, 4 ]
+```
+
