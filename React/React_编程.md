@@ -1,6 +1,8 @@
 ## 编程
 
-### props和state
+### 组件状态
+
+#### props和state
 
 **使用思想：**
 
@@ -37,15 +39,15 @@ class B extends Component {
     }
 }
 
+B.defaultProps = {		// 设置类组件的默认props属性，函数式组件没有，但是一般不用这个而用state
+	name:'默认值'        
+}
+
 // 函数式组件
 const C = (props) => {
     return (
     	<p>{props.text}</p>		{/* 注意没有this */} 
     )
-}
-        
-B.defaultProps = {		// 设置类组件的默认props属性，函数式组件没有，但是一般不用这个而用state
-	name:'默认值'        
 }
 ```
 
@@ -81,7 +83,6 @@ class Test extends Component {
         return(
             {/* 注意：要传递html元素格式时，可用dangerouslySetInnerHTML传递一个对象属性，其中语法为__html:xxxx */}
         	<div dangerouslySetInnerHTML={{__html:this.state.article}}/>     
-            
             {/* 渲染列表时，可以使用map的方式 -- 提供一个方法，原数组中的每一个元素都会执行该方法，并且生成一个新的数组返回（若有接受变量） */
             <div>
                 {
@@ -90,8 +91,6 @@ class Test extends Component {
                     })
                 }
             </div>
- 
-
                     }
         )
     }
@@ -111,9 +110,17 @@ class Test extends Component {
 
 #### setState机制
 
+```markdown
+**调用setState后发生的事情**
+	在代码中调用 setState 函数之后，React 会将传入的参数对象与组件当前的状态合并，然后触发所谓的调和过程
+	经过调和过程，React会以相对高效的方式根据新的状态构建React元素树并且着手重新渲染整个 UI 界面。
+	在 React 得到元素树之后，React 会自动计算出新的树与老树的节点差异，然后根据差异对界面进行最小化重渲染
+	在差异计算算法中，React 能够相对精确地知道哪些位置发生了改变以及应该如何改变，这就保证了按需更新，而不是全部重新渲染
+```
+
 在构造函数里定义state，修改state时需要用到setState ( )，不可直接通过`this.state`去修改状态，这样子不会更新组件（在`constructor`函数中可用`this.state`去初始化）
 
-setState()可有两个参数，第一个参数可为对象或者方法，第二个参数可选，为一个回调函数
+`setState()` 可有两个参数，第一个参数可为对象或者方法，第二个参数可选，为一个回调函数
 
 ```jsx
 // 对象形式
@@ -146,11 +153,12 @@ this.setState((preState, props) => {
 
 ```
 为了优化性能，在一个事件函数中，不管setState()被调用多少次，在函数执行结束以后，被归结为一次重新渲染, 这个等到最后一起执行的行为被称为batching
+当批量执行state的时候可以让DOM渲染的更快,也就是说多个setstate在执行的过程中还需要被合并,这也是为什么setState要设置成异步的原因
 ```
 
 即：触发了setState后，可能不会立刻触发更新操作，而是将多个更改后的state排成一个 `队列`，在渲染的时候批量处理，直到下一次`render`调用或`shouldComponentUpdae`返回false时，才会进行state的更新
 
-**可以简单理解为，更新状态发生在一次时间的同步操作后，异步操作前，且异步函数中的状态是立即更新的，整个setState函数的执行机制也是如此**
+<span style="color:red">可以简单理解为，更新状态发生在一次时间的同步操作后，异步操作前，且异步函数中的状态是立即更新的，整个 setState函数的执行机制也是如此</span>
 
 ```jsx
 // count = 0

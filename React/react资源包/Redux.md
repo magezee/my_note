@@ -415,6 +415,8 @@ react-redux是redux对react的官方绑定库，借助react-redux可以很方便
 
 react-redux需要配合redux来使用，redux对外暴露了以下方法，除了这些都是react-redux的内容
 
+react-redux 的核心组件只有两个，`Provider` 和 `connect`，Provider 存放 Redux 里 store 的数据到 context 里，通过 connect 从 context 拿数据，通过 props 传递给 connect 所包裹的组件
+
 ```jsx
 export {
   createStore,
