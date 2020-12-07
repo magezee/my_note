@@ -201,3 +201,32 @@ function removeElement(nums, val) {
 removeElement([0,1,2,2,3,0,4,2],2)      // [ 0, 1, 3, 0, 4 ]
 ```
 
+
+
+---
+
+### 进制转换
+
+10进制转任意进制的过程：
+
+- 10进制数字整除该进制，记录每一次整除的余数值，直到整除结果为0
+- 将记录的余数反转，就是该进制结果
+
+```js
+function sysConvert(scale, num) {
+    let remainderArr = []
+    while(num !== 0 ) {
+        remainderArr.push(num % scale)
+        num = Math.floor(num / scale) 
+    }
+    remainderArr.reverse()      // 余数反转
+    return Number(remainderArr.join(''))
+}
+
+console.log(sysConvert(16,150))     // 96
+```
+
+
+
+----
+
