@@ -1356,9 +1356,38 @@ useEffect(() => {
 
 ---
 
-**使用useEffect 获取数据并显示**
+**使用场景**
 
-在类组件中，一般通过将此代码放在 `componentDidMount` 方法中实现，函数式组件中，可以使用 `useEffect hook` 来实现
+- 获取dom
+
+  如果要获取一个元素的dom，应该在元素挂载完毕的时候才去进行获取
+
+```jsx
+function component() {
+   	let dom = document.getElementById("main")
+    console.log(dom)	// null
+    return (
+    	<div id="main"></div>
+    )
+}
+```
+
+```jsx
+import {useEffect} from 'react'
+function component() {
+   	useEffect(() => {
+        let dom = document.getElementById("main")
+    	console.log(dom)	// dom信息
+    })
+    return (
+    	<div id="main"></div>
+    )
+}
+```
+
+- 使用useEffect 获取数据并显示
+
+  在类组件中，一般通过将此代码放在 `componentDidMount` 方法中实现，函数式组件中，可以使用 `useEffect hook` 来实现
 
 ```tsx
 // 从Reddit网站获取帖子并显示它们的组件
@@ -1388,7 +1417,7 @@ const LifecycleDemo = () => {
 export default LifecycleDemo
 ```
 
-控制获取文章的更新
+​		控制获取文章的更新
 
 ```tsx
 import React, {useEffect, useState} from 'react'

@@ -43,7 +43,7 @@ render(
 ​		`App.js`用于当做组件的根组件，导入并渲染所需子组件（不只是用作渲染，也用于进行数据处理和事件声明）
 
 ```jsx
-mport React,{Component} from 'react'
+import React,{Component} from 'react'
 import { ComponentDemo } from './components'
 
 export default class App extends Component {

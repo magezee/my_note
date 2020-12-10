@@ -10,6 +10,7 @@ Sass和SCSS 其实是同一种东西，平时都称之为 Sass
 ```
 npm install node-sass -save
 yarn add node-sass
+或者指定版本下载：npm install node-sass@4.14.0 -s（4.14.0版本可以直接下载成功）
 ```
 
 有时候不能正常下载时，使用cnpm试试
