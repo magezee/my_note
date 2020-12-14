@@ -52,6 +52,10 @@ store.dispatch(dec)		// 0
 store.subscribe()
 ```
 
+
+
+---
+
 ### store
 
 ```jsx
@@ -64,7 +68,7 @@ store.subscribe(listener)		// 注册监听器，会返回一个可以解绑监�
 
 - **store.getState( )**
 
-  获取所有传入reducer中的state的一个整合对象，该对象在每一次dispatch之后会更新
+  获取所有传入reducer中的state的一个整合对象，这个state对象的值来由定义reducer时传入并可以由dispatch触发reducer更新
 
 ```js
 function A(state=0, action:any) {
@@ -159,9 +163,21 @@ const action = (prams) => {
 
 reducer函数拥有两个参数：初始state和传入的action，当触发 `dispatch(action)`时，会将该action传递给reducer的第二个参数
 
+**注意：**`switch` 方法中，不能对数据进行操作后直接 `break`，这样相当于将一个 `undefined` 返回给了state，会造成错误，应该在数据操作后将最终的值 `return` 出去
+
 ```js
-const reducer = (initState, action) {
-    ...
+const initData = {
+    count: 0
+}
+
+const reducer = (data = initData, action) {
+    switch(action.type) {
+        case 'ADD' :
+           	data.count += 1
+            return data		// 这里不能使用break
+        default:
+            return data
+    }
 }
 ```
 
@@ -208,7 +224,80 @@ function todoApp(state = initialState, action) {
 }
 ```
 
-<img src="https://img-blog.csdnimg.cn/20200605142623673.png" style="margin:0"/>
+<img src="https://img-blog.csdnimg.cn/20200605142623673.png" style="margin:0;width:670px"/>
+
+---
+
+### 组件更新
+
+redux 的更新不会自动引起使用 redux 数据的组件更新，即使是传入组件的 props 或者 state
+
+```jsx
+class App extends Component {
+	reduxUpdata = () => {
+		this.props.dispatch(action())
+	}
+
+	render() {
+		return (
+			<React.Fragment>
+				<button onClick={this.reduxUpdata}>控制redux更新</button>
+				<div>{this.props.data.count}</div>
+			</React.Fragment>
+		)
+	}
+}
+
+function mapToState(state) {
+	return {
+		data: state.data
+	}
+}
+
+export default connect(mapToState)(App);
+```
+
+如果想让 redux 数据更新同时刷新组件，应该在控制 redux 更新的同时控制组件更新，比较常用的方法就是令组件的一个 state 值和 redux 中的一个state 值联系起来，控制 redux 更新同时手动更改组件 state
+
+```js
+class App extends Component {
+    constructor() {
+        super()
+        this.state = {
+            count : 0
+        }
+    }
+	reduxUpdata = () => {
+		this.props.dispatch(action())
+        setState(() => {
+            count: this.props.data.count	// 使用setState手动刷新组件
+        })
+	}
+
+	render() {
+		return (
+			<React.Fragment>
+				<button onClick={this.reduxUpdata}>控制redux更新</button>
+				<div>{this.props.data.count}</div>
+			</React.Fragment>
+		)
+	}
+}
+
+function mapToState(state) {
+	return {
+		data: state.data
+	}
+}
+
+export default connect(mapToState)(App);
+```
+
+
+
+
+
+
 
 -----
 
