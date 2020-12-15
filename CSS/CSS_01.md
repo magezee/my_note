@@ -1626,14 +1626,19 @@ z-index 属性设置元素的堆叠顺序，拥有更高堆叠顺序的元素总
 
 - **flex-direction**：定义主轴的方向（即项目的排列方向）
 
-  ```css
-  row | row-reverse | column | column-reverse
+  ```less
+  row					// 主轴为水平方向，起点在左端，默认值
+  row-reverse 		// 主轴为水平方向，起点在右端
+  column				// 主轴为垂直方向，起点在上沿
+  column-reverse		// 主轴为垂直方向，起点在下沿
   ```
 
 - **flex-wrap**：定义项目换行方式
 
-  ```css
-  nowrap | wrap | wrap-reverse
+  ```less
+  nowrap				// 不换行，默认值
+  wrap				// 换行，第一行在上方
+  wrap-reverse		// 换行，第一行在下方
   ```
 
 - **flex-flow**：`flex-direction` 和 `flex-wrap` 的简写
@@ -1644,21 +1649,40 @@ z-index 属性设置元素的堆叠顺序，拥有更高堆叠顺序的元素总
 
 - **justify-content**：定义项目在主轴上的对齐方式
 
-  ```css
-  flex-start | flex-end | center | space-between | space-around
+  ```less
+  flex-start			// 左对齐，默认值
+  flex-end			// 右对齐
+  center				// 居中
+  space-between		// 两端对齐，项目之间的间隔都相等
+  space-around		// 每个项目两侧的间隔相等。所以，项目之间的间隔比项目与边框的间隔大一倍
   ```
+
+  <img src="http://www.ruanyifeng.com/blogimg/asset/2015/bg2015071010.png" style="float:left;width:200px">
 
 - **align-items**：定义项目在交叉轴上如何对齐
 
-  ```css
-  flex-start | flex-end | center | baseline | stretch
+  ```less
+  stretch				// 如果项目未设置高度或设为auto，将占满整个容器的高度，默认值
+  flex-start			// 交叉轴的起点对齐
+  flex-end			// 交叉轴的终点对齐
+  center				// 交叉轴的中点对齐
+  baseline			// 项目的第一行文字的基线对齐
   ```
+
+  <img src="http://www.ruanyifeng.com/blogimg/asset/2015/bg2015071011.png" style="float:left;width:200px">
 
 - **align-content**：定义了存在换行时，各行项目的对其方式（不换行，即只有一条主轴时不起作用）
 
   ```css
-  flex-start | flex-end | center | space-between | space-around | stretch
+  flex-start
+  flex-end 
+  center
+  space-between
+  space-around
+  stretch
   ```
+  
+  <img src="http://www.ruanyifeng.com/blogimg/asset/2015/bg2015071012.png" style="float:left;width:200px">
 
 **项目属性**
 
@@ -1699,13 +1723,13 @@ z-index 属性设置元素的堆叠顺序，拥有更高堆叠顺序的元素总
 
 - **flex**：是 `flex-grow`、`flex-shrink` 和 `flex-basis` 的缩写
 
-- **align-self**：允许单个项目有与其他项目不一样的对齐方式（只作用于交叉轴），可覆盖 `align-items` 属性
+- **align-self**：允许单个项目有与其他项目不一样的对齐方式（只作用于交叉轴），可覆盖 `align-items` 属性，默认值为`auto`，表示继承父元素的 `align-items` 属性，如果没有父元素，则等同于 `stretch`
 
   ```css
   auto | flex-start | flex-end | center | baseline | stretch
   ```
-
-
+  
+  <img src="http://www.ruanyifeng.com/blogimg/asset/2015/bg2015071016.png" style="float:left;width:200px">
 
 ---
 
