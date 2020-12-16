@@ -1335,6 +1335,23 @@ router.get('/admin/:aid',async (ctx) => {
 // 请求/admin/test2，打印{ aid: 'test2' }
 ```
 
+
+
+---
+
+#### 设置返回内容
+
+```js
+// 设定访问/home时返回给前端的内容
+router.get('/home', async(ctx) => {
+   	ctx.status = 200 								// ctx.status 直接设置响应状态码
+	ctx.body = 'abc' 								// ctx.body 直接设置响应body
+	ctx.set('Content-Type', 'application/zip')		// ctx.set 直接设置响应头
+})
+```
+
+
+
 -----
 
 ### 中间件
@@ -1654,7 +1671,7 @@ options属性：
 ```jsx
 // 正常的基本配置
 const Koa = require("koa");
-const app = new Koa; 
+const app = new Koa(); 
 const router = require('koa-router')()
 
 router.get('/',async (ctx) => {  
