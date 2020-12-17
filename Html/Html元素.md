@@ -1,4 +1,6 @@
-### 功能标签
+## 功能标签
+
+### 非页面元素
 
 #### meta
 
@@ -165,6 +167,149 @@ meta标签只有两个属性：`http-equiv` 和 `name`
 
 ---
 
+### 媒体元素
+
+#### a
+
+- 行内元素
+
+- `download `属性指示浏览器下载 URL 资源而不是导航到它，如果该属性设置了值，那么这个值就是下载的文件名
+
+```html
+<a href="javascript:;"/>		// 表示点击时什么也不干
+<a href="http://www.xxx.com/xxx.exe" download='res.exe'>百度一下</a>
+```
+
+---
+
+#### img
+
+- 行内元素
+- 可以放在 `<a>` 标签内部，使得图片变成一个可以点击的链接
+
+---
+
+
+
+### 表单元素
+
+#### form
+
+- 块状元素
+- 用于把浏览者输入的数据传送到服务器端，这样服务器端程序就可以处理表单传过来的数据
+
+```html
+<form method="post" action="http://www.baidu.com">
+    <input type="text/password" name="data" value="默认值" />
+    <button type="submit">提交</button>
+</form>
+```
+
+---
+
+#### input
+
+- 行内元素‘
+- 通过 `type` 属性来控制渲染的表单类型
+
+```markdown
+button
+	定义可点击按钮
+checkbox
+	定义复选框，一组复选框name属性必须相同
+file
+	定义输入字段和 “浏览” 按钮，供文件上传
+hidden
+	定义隐藏的输入字段
+image
+	定义图像形式的提交按钮
+passwor
+	d定义密码字段，该字段中的字符被掩码
+radio
+	定义单选按钮，一组单选按钮的name属性值必须相同
+reset
+	定义重置按钮，清除表单中的所有数据
+submit
+	定义提交按钮，提交到action属性指定的地址
+text
+	定义单行的输入字段，用户可在其中输入文本，默认宽度为20字符
+```
+
+```html
+<!-- 文本框 -->
+<input type="text" >
+<hr>
+
+<!-- 设置文本框颜色 -->
+<input type="color">
+<hr>
+
+<!-- 密码框，输入密码会以...显示-->
+<input type="password">
+<hr>
+
+<!-- 单选框 实现多选一必须要设置共同的name -->
+<input type="radio" name="gender"> 男
+<input type="radio" name="gender"> 女
+<hr>
+
+<!-- 复选框 要有共同的name -->
+<input type="checkbox" name="hobby"> 唱
+<input type="checkbox" name="hobby"> 跳
+<input type="checkbox" name="hobby"> Rap
+<hr>
+
+<!-- 上传文件，multiple表示可以上传多个文件 -->
+<input type="file" multiple>
+<hr>
+看不见的input: <input type="hidden">
+<hr>
+
+<!-- textarea多行文本输入 style属性可以固定文本框大小 -->
+<textarea></textarea>
+<hr>
+
+<!-- select下拉选框 -->
+<select>
+    <option value="">-请选择-</option>
+    <option value="1">星期一</option>
+    <option value="2">星期二</option>
+</select> 
+```
+
+<img src="https://img-blog.csdnimg.cn/20201217140415165.png" style="margin:0;width:250px">
+
+---
+
+#### select
+
+- 行内元素
+- 下拉表单元素，用于定义一个下拉列表
+
+- 标签 `option` 为下拉列表中的元素，定义 `selected="selected"` 属性时，当前项为默认选中项
+
+```html
+<select name="year">
+    <option selected="selected">--请选择年--</option>
+    <option>1990</option>
+    <option>2000</option>
+    <option>2010</option>
+</select>
+```
+
+---
+
+#### textarea
+
+文本框
+
+无法自动实现的功能：
+
+- 文本框随着文本输入内容自适应拉长
+- 传入图片时显示的是html标签，无法正常显示
+
+----
+
 #### label
 
 `<label>` 标签为 input 元素定义标注，label 元素不会向用户呈现任何特殊效果。不过，它为鼠标用户改进了可用性，如果在 label 元素内点击文本，就会触发此控件。就是说，当用户选择该标签时，浏览器就会自动将焦点转到和标签相关的表单控件上
@@ -214,51 +359,25 @@ main {
 
 <img src="https://img-blog.csdnimg.cn/20200529153134365.png" style="margin:0" />
 
-----
-
-#### textarea
-
-文本框
-
-无法自动实现的功能：
-
-- 文本框随着文本输入内容自适应拉长
-- 传入图片时显示的是html标签，无法正常显示
-
-
-
----
-
-#### a
-
-如果不想被点击则设置
-
-```jsx
-<a href="javascript:;"/>		// 表示点击时什么也不干
-```
-
 
 
 ----
 
-### 语义化标签
+## 语义化标签
 
-#### span
-
-行内元素，主要用于为其中一个范围指定样式
-
-```html
-<h1>进行<span style="color:blue">实例</span>测试</h1>
-<!-- 实例两个字变成了蓝色 -->
+```
+语义类标签对开发者更为友好，使用语义类标签增强了可读性，即便是在没有 CSS 的时候，开发者也能够清晰地看出网页的结构，也更为便于团队的开发和维护
+除了对开发者之外，语义类标签也十分适宜机器阅读，它的文字表现力丰富，更适合搜索引擎检索（SEO），也可以让搜索引擎爬虫更好地获取到更多有效信息，有效提升网页的搜索量，并且语义类还可以支持读屏软件，根据文章可以自动生成目录等等
 ```
 
-
-
----
+### 渲染性
 
 #### i
 
-标签 `<i/>` 一般用于渲染小图标
+- 行内元素
+
+- 用于渲染小图标
+- 用于区分文本，i 标签内的文本会自动渲染为斜体
 
 ```html
 <div>
@@ -279,17 +398,171 @@ main {
 
 <img src="https://img-blog.csdnimg.cn/20201026145100883.png#pic_center" style="margin:0">
 
+---
 
+#### em
+
+- 行内元素
+- 用于强调某句话，标签内文本会被渲染为斜体，和 `<i>`  标签用法不同的是，i 标签主要用于渲染一整段文本，而 em 是一段文本中的一部分
+
+```html
+<i>我今天不舒服</i>
+<p>我<em>今天</em>不舒服</p>
+```
+
+---
+
+#### u
+
+- 行内元素
+- 标签内文本会下划线渲染
+
+---
+
+#### b
+
+- 行内元素
+- 用于强调，标签内文本会加粗渲染
+
+---
+
+#### strong
+
+- 行内元素
+- 用于强调，标签内文本会加粗渲染，用在比 `<b>` 更强调的文本上
+
+---
+
+#### s
+
+- 行内元素
+- 标签内文本会使用删除线样式渲染
+
+---
+
+#### hr
+
+- 块状元素
+
+- 渲染为一条分隔线
 
 ---
 
 #### template
 
-html中的`template`标签中的内容在页面中不会显示。但是在后台查看页面DOM结构存在`template`标签。这是因为template标签天生不可见，它设置了`display:none;`属性
+- html中的`template`标签中的内容在页面中不会显示。但是在后台查看页面DOM结构存在`template`标签。这是因为template标签天生不可见，它设置了`display:none;`属性
 
 ```html
 <!--当前页面只显示"我是自定义表现abc"这个内容，不显示"我是template",这是因为template标签天生不可见-->
 <template><div>我是template</div></template>
 <abc>我是自定义表现abc</abc>
+```
+
+
+
+---
+
+### 区域性
+
+#### aside
+
+- 块状元素
+- 表示一个和其余页面内容几乎无关的部分，被认为是独立于该内容的一部分并且可以被单独的拆分出来而不会使整体受影响，其通常表现为侧边栏或者标注框
+
+---
+
+#### section
+
+- 块状元素
+- 表示一个包含在HTML文档中的独立部分，一般来说会有包含一个标题，而且在该标签中的标题元素 `H1~H6` 会下降一级 `H1变成H2`
+
+```html
+<section>
+  <h1>Heading</h1>
+  <p>Bunch of awesome content</p>
+</section>
+```
+
+---
+
+#### article
+
+- 块状元素
+
+- 用于定义独立于文档且有意义的来自外部的内容，比如：一些投稿文章、新闻记者的文章，或者是摘自其它博客、论坛的信息等
+
+- 表示具有一定独立性质的文章，article 和 body 具有相似的结构，一个 HTML 页面中，可能有多个 article 存在，除了内容主题以外，一个 article 元素通常会有自己的标题及脚注
+
+```html
+<article>
+    <header>
+        <h3>
+            <a href=""></a>
+        </h3>
+    </header>
+    <section>
+        <p></p>
+    </section>
+    <footer>
+        <small>
+            <time datetime=""></time> 
+            <a href=""></a>
+        </small>
+    </footer>
+</article>
+```
+
+---
+
+#### header
+
+- 块状元素
+- 通常出现在前部，表示导航或者介绍性的内容
+
+---
+
+#### footer
+
+- 块状元素
+- 通常出现在尾部，包含一些作者信息、相关链接、版权信息等
+
+----
+
+#### nav
+
+- 块状元素
+- 专门用于菜单导航，链接导航的元素
+
+----
+
+#### main
+
+- 块状元素
+- 定义页面的主要内容，一个页面只能使用一次，如果是web应用，则包围其主要功能
+
+---
+
+#### span
+
+- 行内元素
+- 用于和 div 一样划分区域性质，不过 span 控制的是行内元素区域（不要在span标签内使用块状元素）
+- 用于为其中一个范围指定样式
+
+```html
+<h1>进行<span style="color:blue">实例</span>测试</h1>
+<!-- 实例两个字变成了蓝色 -->
+```
+
+---
+
+#### time
+
+- 行内元素
+- 用来表示24小时制时间或者公历日期，若表示日期则也可包含时间和时区
+
+```html
+<p>The concert starts at <time>20:00</time></p>
+<p>This article was created on <time pubdate>2011-01-28</time></p>
+<p>The concert took place on <time datetime="2001-05-15 19:00">May 15</time></p>
 ```
 
