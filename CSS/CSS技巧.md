@@ -341,15 +341,71 @@ div {
 
 <img src="https://img-blog.csdnimg.cn/20200522105400754.png" style="margin:0">
 
-**四周圆角**
+**边框极限值作用**
 
-将四周圆角长度设置为远大于元素长度
+- 圆角弧度极限：
 
-```less
-border-radius:99999px; 
+  将四周圆角长度设置为远大于元素长度，当元素为正方形时则为一个圆，当为长方形时可以制作四周圆角
+
+```html
+<div id='demo1'></div>
+<div id='demo2'></div>
+<div id='demo3'></div>
+
+<style>
+    /* 圆 */
+    #demo1 {
+        width: 100px;
+        height: 100px;
+        border-radius: 999px;
+    }
+    
+    /* 四周圆角 */
+    #demo2 {
+        width: 200px;
+        height: 100px;
+        border-radius: 999px;
+    }
+
+    /* 四分之一圆 */
+    #demo3 {
+        width: 100px;
+        height: 100px;
+        border-radius: 999px 0 0 0;
+    }
+</style>
 ```
 
-<img src="https://img-blog.csdnimg.cn/20200531211147134.png" style="margin:0" />
+<img src="https://img-blog.csdnimg.cn/20201222180139582.png" style="margin:0">
+
+- 弧度宽度极限：
+
+  当一个元素四周的边框宽度都远大于元素时，会将元素压缩成一个点（要求元素宽高无值），常用来绘制三角形
+
+```html
+<div id='demo1'></div>
+<div id='demo2'></div>
+
+<style>
+    /* 四个边框的形状 */
+    #demo1 {
+        border-top: red 50px solid;
+        border-right: blue 50px solid;
+        border-left: yellow 50px solid;
+        border-bottom: green 50px solid;
+    }
+
+    /* 将其他三个颜色设为透明从而绘制三角形 */
+    #demo2{
+        border-top: transparent 50px solid;
+        border-right: transparent 50px solid;
+        border-left: darkslateblue 50px solid;
+        border-bottom: transparent 50px solid;
+    }
+</style>
+```
+
+<img src="https://img-blog.csdnimg.cn/20201222181012296.png" style="margin:0">
 
 
 
