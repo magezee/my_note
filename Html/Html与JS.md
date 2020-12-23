@@ -274,7 +274,7 @@ ele.removeAttribute(name);      //删除ele元素的 name 属性
 </body>    
 ```
 
-**注册事件**
+**注册事件（优先使用）**
 
 `addEventListener()`
 

@@ -1,3 +1,5 @@
+## 选择器
+
 ### 使用选择器动态更改样式
 
 **如属性选择器**
@@ -46,80 +48,15 @@
 
 
 
-
-
 ----
+
+## 布局
 
 ### 处理高度
 
 现在主流的高度方法：不直接设置高度，高度由内容撑开，设置margin隔开相邻元素
 
-
-
----
-
-### 父元素随着子元素宽度变化
-
-- 给父元素设置行内块元素显示：`display:inline-block`（只给子元素设置无法实现功能）
-- 父元素设置绝对定位：`position:absolute`
-- 设置浮动：`float:left`
-- 父元素设置flex布局：`display:flex`（待确认，目前只确认高度撑开）
-
----
-
-### 令两个块状元素并排
-
-默认情况下块状元素会换行
-
-- 切换为行内元素或者行内块状元素（注意：A、B若想并排，需要同时设置A、B，B才能和A同行，只设置任意一个都不行）
-- 使用flex布局
-- 两个都设置为`float:left`
-
----
-
-### 使用vertical-align设置子元素高度
-
-需满足两个前置条件：
-
-- 父元素为块状元素（`inline-block`或`block`），为`inline-block`时，必须设置行高`line-height`属性
-- 子元素为行内元素（`inline-block`或`inline`），vertical-align不可继承，必须对子元素单独设置
-
 ----
-
-### 带图标的表单元素
-
-设计思路：将一个div分成两块，一块做表单，一块做图标
-
-使用到`::after`伪类
-
-```jsx
-<div >
-    <input type="text"/>
-    <span></span>
-</div>
-```
-
-```less
-div {
-    border: solid 1px #ddd;
-    width: 180px;
-    
-}
-
-div>input[type='text'] {    // 匹配div子元素带有`type='text`属性的input标签
-    border:none;
-    outline: none;      // 清除获得焦点时产生的外边框
-}
-
-div>input[type='text']+span::after {    // 匹配span标签
-    content: '\21B7';   // 符号字符编码
-    cursor: pointer;    // 鼠标移到图标时将指针改为手型指针
-}
-```
-
-<img src="https://img-blog.csdnimg.cn/20200521154432933.png" style="margin:0">
-
----
 
 ### 设置行高
 
@@ -131,9 +68,37 @@ line-height: 1.5em
 
 ---
 
+### 父随子宽度变化
+
+- 给父元素设置行内块元素显示：`display:inline-block`（只给子元素设置无法实现功能）
+- 父元素设置对定位：`position:absolute`
+- 设置浮动：`float:left`
+- 父元素设置flex布局：`display:flex`（待确认，目前只确认高度撑开）
+
+---
+
+### 块状元素并排
+
+默认情况下块状元素会换行
+
+- 切换为行内元素或者行内块状元素（注意：A、B若想并排，需要同时设置A、B，B才能和A同行，只设置任意一个都不行）
+- 使用flex布局
+- 两个都设置为`float:left`
+
+---
+
+### vertical-align设置高度
+
+需满足两个前置条件：
+
+- 父元素为块状元素（`inline-block`或`block`），为`inline-block`时，必须设置行高`line-height`属性
+- 子元素为行内元素（`inline-block`或`inline`），vertical-align不可继承，必须对子元素单独设置
+
+-------
+
 ### 实现居中
 
-#### 实现水平居中
+#### 水平居中
 
 ```html
 <div className='father'>
@@ -200,7 +165,7 @@ line-height: 1.5em
 }
 ```
 
-#### 实现垂直居中
+#### 垂直居中
 
 ```jsx
 <div >
@@ -228,7 +193,7 @@ line-height: 1.5em
 
 ---
 
-#### 同时实现水平和垂直居中
+#### 水平垂直居中
 
 **对于确定宽高的元素**
 
@@ -323,9 +288,94 @@ line-height: 1.5em
 }
 ```
 
+---
+
+### 元素隐藏
+
+```less
+{
+    display: none;		// 元素文档流消失
+    visibility: hidden;	// 元素隐藏，文档流保持不动
+    opactity: 0;		// 直接将透明度为0，和visibility功能一样
+    transform: scale(0) // 元素缩放至0，和相对定位类似，即使元素放大，其文档流所占大小和位置是不变的  
+}	
+```
+
+**结构：**
+
+- **display:none：** 会让元素完全从渲染树中消失，渲染的时候不占据任何空间, 不能点击
+
+- **visibility: hidden：**不会让元素从渲染树消失，渲染元素继续占据空间，只是内容不可见，不能点击
+- **opacity: 0：** 不会让元素从渲染树消失，渲染元素继续占据空间，只是内容不可见，可以点击
+
+**继承：**
+
+- **display: none、opacity: 0：**非继承属性，子孙节点消失由于元素从渲染树消失造成，通过修改子孙节点属性无法显示
+
+- **visibility: hidden：**继承属性，子孙节点消失由于继承了hidden，通过设置`visibility: visible;`可以让子孙节点显式
+
+**性能：**
+
+- **displaynone ：** 修改元素会造成文档回流，读屏器不会读取`display: none`元素内容，性能消耗较大
+- **visibility:hidden：** 修改元素只会造成本元素的重绘,性能消耗较少读屏器读取`visibility: hidden`元素内容
+- **opacity: 0 ：** 修改元素会造成重绘，性能消耗较少
+
 ----
 
-### 边框使用
+### 固定宽高比
+
+实现一个元素在未知自身宽高的情况下实现自身宽高比
+
+利用 `padding` 在设定 % 值时，无论高宽都是选择父元素的宽度来做相对值的特性
+
+```less
+// 块状元素A是B的父元素，A有宽度值，B的宽度和A一样，高度由padding-top或bottom撑开，是父元素的40%，因此可以实现宽高比为5:2
+.A {
+    width: 30%;
+}
+
+.B {
+    padding-bottom: 40%;
+}
+```
+
+---
+
+### 自适应
+
+如实现左侧布局固定300px，右侧自适应
+
+```jsx
+<div class="container">
+	<div c;ass="left"/>
+    <div class="main"/>
+</div>
+```
+
+使用 flex 布局即可
+
+```less
+.container {
+  display: flex;
+    .left {
+  		flex-basis: 300px;
+        flex-shrink: 0;		// 为了防止main过大挤压left，需要禁止挤压
+	}
+    .main {
+  		flex-grow: 1;
+	}
+}
+```
+
+
+
+----
+
+
+
+## 边框与图像
+
+### 边框技巧
 
 有些效果可以直接使用边框整出来
 
@@ -411,180 +461,50 @@ div {
 
 ----
 
-### 元素隐藏
 
-```less
-{
-    display: none;		// 元素文档流消失
-    visibility: hidden;	// 元素隐藏，文档流保持不动
-    opactity: 0;		// 直接将透明度为0，和visibility功能一样
-    transform: scale(0) // 元素缩放至0，和相对定位类似，即使元素放大，其文档流所占大小和位置是不变的  
-}	
-```
 
-**结构：**
+## 伪元素
 
-- **display:none：** 会让元素完全从渲染树中消失，渲染的时候不占据任何空间, 不能点击
+### 带图标的表单元素
 
-- **visibility: hidden：**不会让元素从渲染树消失，渲染元素继续占据空间，只是内容不可见，不能点击
-- **opacity: 0：** 不会让元素从渲染树消失，渲染元素继续占据空间，只是内容不可见，可以点击
+设计思路：将一个div分成两块，一块做表单，一块做图标
 
-**继承：**
+使用到`::after`伪类
 
-- **display: none、opacity: 0：**非继承属性，子孙节点消失由于元素从渲染树消失造成，通过修改子孙节点属性无法显示
-
--  **visibility: hidden：**继承属性，子孙节点消失由于继承了hidden，通过设置`visibility: visible;`可以让子孙节点显式
-
-**性能：**
-
-- **displaynone ：** 修改元素会造成文档回流，读屏器不会读取`display: none`元素内容，性能消耗较大
-- **visibility:hidden：** 修改元素只会造成本元素的重绘,性能消耗较少读屏器读取`visibility: hidden`元素内容
-- **opacity: 0 ：** 修改元素会造成重绘，性能消耗较少
-
-----
-
-### 使用css定义表格
-
-| 值                 | 属性                                                         |
-| ------------------ | ------------------------------------------------------------ |
-| table              | 此元素会作为块级表格来显示（类似 <table>），表格前后带有换行符。 |
-| inline-table       | 此元素会作为内联表格来显示（类似 <table>），表格前后没有换行符。 |
-| table-row-group    | 此元素会作为一个或多个行的分组来显示（类似 <tbody>）。       |
-| table-header-group | 此元素会作为一个或多个行的分组来显示（类似 <thead>）。       |
-| table-footer-group | 此元素会作为一个或多个行的分组来显示（类似 <tfoot>）。       |
-| table-row          | 此元素会作为一个表格行显示（类似 <tr>）。                    |
-| table-column-group | 此元素会作为一个或多个列的分组来显示（类似 <colgroup>）。    |
-| table-column       | 此元素会作为一个单元格列显示（类似 <col>）                   |
-| table-cell         | 此元素会作为一个表格单元格显示（类似 <td> 和 <th>）          |
-| table-caption      | 此元素会作为一个表格标题显示（类似 <caption>）               |
-
-```html
-<div className='talble'> 
-    <section>
-        <ui>
-            <li>编号</li>
-            <li>标题</li>
-        </ui>    
-    </section>     
-    <section>
-        <ui>
-            <li>1</li>
-            <li>标题1</li>
-        </ui>    
-    </section>
-    <section>
-        <ui>
-            <li>2</li>
-            <li>标题2</li>
-        </ui>    
-    </section>             
-
+```jsx
+<div >
+    <input type="text"/>
+    <span></span>
 </div>
 ```
 
-<img src="https://img-blog.csdnimg.cn/20200523120027573.png" style="margin:0">
-
 ```less
-.table {
-    display: table;
+div {
+    border: solid 1px #ddd;
+    width: 180px;
     
-    section {
-        &:nth-of-type(1) {  // less符号&，相当于section:nth-of-type(1)
-            display: table-header-group;
-        }
+}
 
-        &:nth-of-type(2) {
-            display: table-row-group;
-        } 
+div>input[type='text'] {    // 匹配div子元素带有`type='text`属性的input标签
+    border:none;
+    outline: none;      // 清除获得焦点时产生的外边框
+}
 
-        &:nth-of-type(3) {
-            display: table-footer-group;
-        }
-
-        ul {
-            display: table-row;
-
-            li {
-                display: table-cell;
-            }
-        }
-    }
+div>input[type='text']+span::after {    // 匹配span标签
+    content: '\21B7';   // 符号字符编码
+    cursor: pointer;    // 鼠标移到图标时将指针改为手型指针
 }
 ```
 
-<img src="https://img-blog.csdnimg.cn/20200523122316569.png" style="margin:0">
+<img src="https://img-blog.csdnimg.cn/20200521154432933.png" style="margin:0">
 
-可以加点样式
 
-```less
-.table {
-    margin: 50px;
-    display: table;
-    
-    section {
-        &:nth-of-type(1) {  // less符号&，相当于section:nth-of-type(1)
-            display: table-header-group;
-            font-weight:bold;
-            background-color: rgba(189, 134, 134, 0.2);
-        }
-
-        &:nth-of-type(2) {
-            display: table-row-group;
-        } 
-
-        &:nth-of-type(3) {
-            display: table-footer-group;
-        }
-
-        ul {
-            display: table-row;
-
-            li {
-                
-                display: table-cell;
-                border: 1px #ddd solid;
-                padding: 10px;
-            }
-        }
-    }
-}
-```
-
-<img src="https://img-blog.csdnimg.cn/20200523122915829.png" style="margin:0">
-
-```less
-.table {
-    display: table;
-    
-    section {
-        &:nth-of-type(1) {  
-            display: table-header-group;
-            font-weight:bold;
-        }
-
-        &:nth-of-type(n+1) {
-            display: table-row-group;
-        } 
-
-        ul {
-            display: table-row;
-            border: none;
-            
-
-            li {
-                border-top: solid 1px #ccc;
-                
-                display: table-cell;               
-                padding: 10px 30px;
-            }
-        }
-    }
-}
-```
-
-<img src="https://img-blog.csdnimg.cn/20200523142051846.png" style="margin:0">
 
 -----
+
+
+
+## 变形与动画
 
 ### 动画实现鼠标悬浮效果
 
@@ -772,7 +692,154 @@ main {
 
 <img src="https://img-blog.csdnimg.cn/20200526220148691.png" style="margin:0" />
 
+
+
 ---
+
+## 技巧
+
+### 使用css定义表格
+
+| 值                 | 属性                                                         |
+| ------------------ | ------------------------------------------------------------ |
+| table              | 此元素会作为块级表格来显示（类似 <table>），表格前后带有换行符。 |
+| inline-table       | 此元素会作为内联表格来显示（类似 <table>），表格前后没有换行符。 |
+| table-row-group    | 此元素会作为一个或多个行的分组来显示（类似 <tbody>）。       |
+| table-header-group | 此元素会作为一个或多个行的分组来显示（类似 <thead>）。       |
+| table-footer-group | 此元素会作为一个或多个行的分组来显示（类似 <tfoot>）。       |
+| table-row          | 此元素会作为一个表格行显示（类似 <tr>）。                    |
+| table-column-group | 此元素会作为一个或多个列的分组来显示（类似 <colgroup>）。    |
+| table-column       | 此元素会作为一个单元格列显示（类似 <col>）                   |
+| table-cell         | 此元素会作为一个表格单元格显示（类似 <td> 和 <th>）          |
+| table-caption      | 此元素会作为一个表格标题显示（类似 <caption>）               |
+
+```html
+<div className='talble'> 
+    <section>
+        <ui>
+            <li>编号</li>
+            <li>标题</li>
+        </ui>    
+    </section>     
+    <section>
+        <ui>
+            <li>1</li>
+            <li>标题1</li>
+        </ui>    
+    </section>
+    <section>
+        <ui>
+            <li>2</li>
+            <li>标题2</li>
+        </ui>    
+    </section>             
+
+</div>
+```
+
+<img src="https://img-blog.csdnimg.cn/20200523120027573.png" style="margin:0">
+
+```less
+.table {
+    display: table;
+    
+    section {
+        &:nth-of-type(1) {  // less符号&，相当于section:nth-of-type(1)
+            display: table-header-group;
+        }
+
+        &:nth-of-type(2) {
+            display: table-row-group;
+        } 
+
+        &:nth-of-type(3) {
+            display: table-footer-group;
+        }
+
+        ul {
+            display: table-row;
+
+            li {
+                display: table-cell;
+            }
+        }
+    }
+}
+```
+
+<img src="https://img-blog.csdnimg.cn/20200523122316569.png" style="margin:0">
+
+可以加点样式
+
+```less
+.table {
+    margin: 50px;
+    display: table;
+    
+    section {
+        &:nth-of-type(1) {  // less符号&，相当于section:nth-of-type(1)
+            display: table-header-group;
+            font-weight:bold;
+            background-color: rgba(189, 134, 134, 0.2);
+        }
+
+        &:nth-of-type(2) {
+            display: table-row-group;
+        } 
+
+        &:nth-of-type(3) {
+            display: table-footer-group;
+        }
+
+        ul {
+            display: table-row;
+
+            li {
+                
+                display: table-cell;
+                border: 1px #ddd solid;
+                padding: 10px;
+            }
+        }
+    }
+}
+```
+
+<img src="https://img-blog.csdnimg.cn/20200523122915829.png" style="margin:0">
+
+```less
+.table {
+    display: table;
+    
+    section {
+        &:nth-of-type(1) {  
+            display: table-header-group;
+            font-weight:bold;
+        }
+
+        &:nth-of-type(n+1) {
+            display: table-row-group;
+        } 
+
+        ul {
+            display: table-row;
+            border: none;
+            
+
+            li {
+                border-top: solid 1px #ccc;
+                
+                display: table-cell;               
+                padding: 10px 30px;
+            }
+        }
+    }
+}
+```
+
+<img src="https://img-blog.csdnimg.cn/20200523142051846.png" style="margin:0">
+
+
 
 ### 纯css实现点击控制显示影藏
 
@@ -832,8 +899,6 @@ main {
     <div className='col-lg-4'>3</div>
 </main>
 ```
-
-
 
 ```less
 // 将要使用栅格的元素分成24列
@@ -982,65 +1047,4 @@ import 'index.less'
 ```
 
 <img src="https://img-blog.csdnimg.cn/2020053016421710.png" style="margin:0" />
-
----
-
-### 固定宽高比
-
-实现一个元素在未知自身宽高的情况下实现自身宽高比
-
-利用 padding 在设定 % 值时，无论高宽都是选择父元素的宽度来做相对值的特性
-
-```less
-// 块状元素A是B的父元素，A有宽度值，B的宽度和A一样，高度由padding-top或bottom撑开，是父元素的40%，因此可以实现宽高比为5:2
-.A {
-    width: 30%;
-}
-
-.B {
-    padding-bottom: 40%;
-}
-```
-
-
-
----
-
-### 自适应
-
-如实现左侧布局固定300px，右侧自适应
-
-```jsx
-<div class="container">
-	<div c;ass="left"/>
-    <div class="main"/>
-</div>
-```
-
-使用 flex 布局即可
-
-```less
-.container {
-  display: flex;
-    .left {
-  		flex-basis: 300px;
-        flex-shrink: 0;		// 为了防止main过大挤压left，需要禁止挤压
-	}
-    .main {
-  		flex-grow: 1;
-	}
-}
-```
-
-
-
----
-
-
-
-
-
-
-
-
 
