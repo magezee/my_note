@@ -350,7 +350,7 @@ even：匹配所有偶数
 | ::after        | 用于在css渲染中向元素逻辑上的尾部添加内容 |
 | ::selection    | 匹配突出显示的文本                        |
 
-`::first-letter`
+**::first-letter**
 
 ```css
 /* 制作首字下沉 */
@@ -362,7 +362,7 @@ p:first-child::first-letter {
 }
 ```
 
-`::first-line`
+**::first-line**
 
 ```css
 /* 最后一个段落的第一行文字显示为红色斜体 */
@@ -372,13 +372,15 @@ p:last-child::first-line {
 }
 ```
 
-`::before和::after`
+**::before和::after**
 
 不要用:before或:after展示有实际意义的内容，尽量使用它们显示修饰性内容，例如图标
 
-```
+```markdown
 ::before和::after必须配合content属性来使用
-content用来定义插入的内容，content必须有值，至少是空，默认情况下，伪类元素的display是默认值inline，可以通过设置display:block来改变其显示
+	content用来定义插入的内容，content必须有值，至少是空，默认情况下，伪类元素的display是默认值inline，可以通过设置display:block来改变其显示
+一般包含两种内容：content，css样式
+	css样式直接写即可，会直接作用在content的内容上
 ```
 
 content取值：
@@ -396,6 +398,18 @@ p::after {
     color: blue;
 }
 /* 《平凡的世界》 */
+```
+
+如果只是想做文字前面的一个图标样式时，可以为空然后直接设置css样式即可
+
+```less
+p::before {
+    content: '';
+    display:inline-block;
+    background-color:blue;
+   	height:.25em;
+    margin-right:0;
+}
 ```
 
 - 通过attr( )调用当前元素的属性，比如将图片alt提示文字或者链接的href地址显示出来
