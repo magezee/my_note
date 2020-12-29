@@ -49,9 +49,9 @@ Attribute		// 属性节点 如<img src="images/1.gif" title="个人相册" /> ti
 document.querySelector('#id')
 ```
 
-- **childNodes()**
+- **childNodes**
 
-  获取指定元素的所有子节点，返回值为一个数组，里面装的是节点对象（即使某个元素只有一个子节点 childNode属性也会返回一个节点数组
+  获取指定元素的所有子节点，返回值为一个 `nodeList`，里面装的是节点对象（即使某个元素只有一个子节点 childNode属性也会返回一个`nodeList`
 
 ```javascript
 var tag = document.getElementsByTagName("ul");      //获取网页文档中"name = ul"的所有节点对象
@@ -59,33 +59,41 @@ var a = tag[0].childNodes;      //获取第一个 "ul" 对象
 alert(a[0].nodeName);       
 ```
 
-- **haschildNodes()**
+​		需要使用数组的方法时，需要先变化成数组
+
+```js
+// 查找指定dom在父元素中的下标
+const nodeArr = Array.from(dom.parentNode.childNodes);
+const nodeIndex = nodeArr.indexOf(dom);
+```
+
+- **haschildNodes**
 
   判断某个元素是否包含子节点
 
-- **firstChild()**
+- **firstChild**
 
 ```javascript
 node.childNodes[0] == node.firstChild
 ```
 
-- **lastChild()**
+- **lastChild**
 
 ```javascript
 node.childNode[node.childNodes.length-1] == node.lastChild
 ```
 
-- **parentNode()**
+- **parentNode**
 
   返回指定节点父节点
 
   永远返回的是元素节点，因为只有元素节点才能包含子节点 ，document没有父节点 将返回null 
 
-- **nextSibling()**
+- **nextSibling**
 
   返回一个指定节点的下一个相邻节点
 
-- **previousSibling()**
+- **previousSibling**
 
   返回一个指定节点的上一个相邻节点
 
@@ -193,6 +201,8 @@ var oldNode = ele.replaceChild(newNode,oldNode);	// 用newNode节点替换ele的
 
 #### 操作属性
 
+**通用**
+
 - **getAttribute()**
 
   获取元素的指定属性值
@@ -208,7 +218,7 @@ var strings = redbox.getAttribute("id");       //返回"red"
   设置节点属性值
 
 ```javascript
-ele.setAttribute(name,value);     //为ele元素修改(新添)name属性的值为value
+dom.setAttribute(name,value);     //为ele元素修改(新添)name属性的值为value
 ```
 
 - **removeAttribute()**
@@ -216,8 +226,37 @@ ele.setAttribute(name,value);     //为ele元素修改(新添)name属性的值�
   删除指定的属性
 
 ```javascript
-ele.removeAttribute(name);      //删除ele元素的 name 属性
+dom.removeAttribute(name);      //删除ele元素的 name 属性
 ```
+
+**操作class**
+
+追加类名
+
+```js
+dom.classList.add('classA','classB')
+```
+
+覆盖原来类名
+
+```js
+dom.setAttribute('class','classA','classB')
+```
+
+删除类名
+
+```js
+dom.removeAttribute('class', 'classA')
+dom.classList.remove('classA')
+```
+
+
+
+
+
+
+
+
 
 
 
