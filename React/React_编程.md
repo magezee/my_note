@@ -1843,6 +1843,66 @@ function App() {
 }
 ```
 
+
+
+---
+
+#### useMemo
+
+和 memo 的区别：
+
+- `React.memo()`是判断一个函数组件的渲染是否重复执行
+
+- `useMemo()`是定义一段函数逻辑是否重复执行
+
+参数与 `useEffect` 类似：
+
+- 第一个参数为 `()=>value`
+- 第二个参数是依赖，为`[m,n,...]`
+- 只有当依赖变化时，才会计算新的value，如果依赖不变，那么就会重用之前的value
+
+```jsx
+function ComponentTest(props) {
+    const [count, setCount] = useState(0)
+    useMemo(() => {
+        if(count > 2) {
+            console.log('执行useMemo')
+        }
+    },[count])
+   
+    return (
+        <button onClick={()=>{setCount(count + 1)}}>{count}</button>
+    )
+}
+```
+
+
+
+---
+
+#### useCallback
+
+当 `useMemo` 的 value 为一个函数时：`useMemo(() => (x) => console.log(x))`，这样写不好用，因此诞生了 `useCallback`
+
+即 `useCallback(x => console.log(x),[m])` 等价于 `useMemo(() => x => console.log(x))`
+
+```jsx
+function ComponentTest(props) {
+    const [count, setCount] = useState(0)
+    const fn = useCallback(() => () => {
+        setCount(count + 1)
+    },[count])
+    return (
+        <Fragment>
+            <button onClick={fn()}>{count}</button>
+            
+        </Fragment>
+    )
+}
+```
+
+
+
 ----
 
 #### 自定义Hook

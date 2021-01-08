@@ -547,14 +547,34 @@ class App extends PureComponent {
 
 **memo**
 
-和 `PureComponent ` 功能类似，只是这用于函数式组件而非类组件
-
 ```js
 function Component(props: IProps){
   return <div>{props.name}</div>;
 }
-const Component = React.memo(Component);
+const memoComponent = React.memo(Component);
+export default memoComponent;
 ```
+
+可以传进第二个参数，用于模拟 `shouldComponentUpdata`，如果不传第二个参数则默认和 `pureComponent` 一样进行浅比较
+
+需要注意的是，memo的第二个参数中是一个回调函数，且返回值为 `false` 时表示进行更新，和 `shouldComponentUpdata` 相反
+
+```jsx
+import React,{memo} from 'react'
+function ComponentTest(props) { ... }
+const fun = (prevProps, nextProps) => {
+    if(prevProps === nextProps) {
+        return true
+    }
+    else return false
+
+}
+
+
+export default memo(ComponentTest,fun)
+```
+
+
 
 -----
 
