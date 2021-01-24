@@ -162,7 +162,7 @@ git switch +branchName
 	切换到指定分支（推荐使用这个，因为checkout不仅可切换也可以用来撤消修改文件，会混淆）
 
 git merge +barnchName
-	将指定分支合并分支到当前分支
+	将指定分支合并分支到当前分支，指定分支的内容会覆盖当前分支
 	
 git branch -d branchName
 	删除分支（处于该分支时不可删除该分支）
@@ -180,6 +180,34 @@ git branch -d branchName
 - 每个人都在`dev`分支上干活，每个人都有自己的分支，时不时地往`dev`分支上合并就可以了。
 
 所以，团队合作的分支看起来就像这样：
+
+**使用分支例子**
+
+创建分支：
+
+```
+先更新保证代码最新
+	git pull	或者 git reset --hard HEAD
+创建分支
+	git checkout -b barnchName
+推送到远程仓库，保证分支名一致
+	git push origin branchName:branchName
+```
+
+切换分支：
+
+```markdown
+切换分支时需要注意的：
+	当想切换分支内容发生更改时，需要前分支 git commit 后切换才可以保证更改的代码已被保存在前一条分支中切切换后对下一条分支不会造成影响
+```
+
+新建分支：
+
+```markdown
+新建分支时需要注意的：
+	当目前所在分支时a分支，创建b分支时，b分支的初始内容是a分支最新一次commit的内容
+	因此同一个项目中，为了不互相混淆，一般都会先切回master分支再新建分支
+```
 
 
 
@@ -310,4 +338,5 @@ git checkout +tag名字
 - 重新拉到`GitHub Pages`，可看到预览链接，如：`https://magezee.github.io/cssTest/`
 
 - 在该链接后加上仓库文件路径即可预览html文件，如：`https://magezee.github.io/cssTest/1/index.html`
+
 

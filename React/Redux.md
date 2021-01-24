@@ -564,7 +564,7 @@ export {
 
 #### 组件交流
 
-**Provider**
+##### Provider
 
 使用provider进行快捷组件交流，不需要多层传递数据
 
@@ -588,7 +588,7 @@ render(
 )
 ```
 
-**connect**
+##### connect
 
 通过connect( )( )自动生成的容器组件（高阶组件），经过connect操作后会将dispatch方法传入该组件
 
@@ -620,9 +620,12 @@ class componentA {}		// props为传递进来的内容
 class componentA {}		// props为传递进来的内容和dispatch方法
 ```
 
-connect( )接受两个参数：`mapStateToProps` 和 `mapDispatchToProps` ，它们定义了 UI 组件的业务逻辑，前者负责输入逻辑，即将state映射到 UI 组件的参数（props），后者负责输出逻辑，即将用户对 UI 组件的操作映射成 Action
+connect( )接受两个参数：
 
-它们主要是为了让redux使用更加方便而服务的，即使不设置也不影响其功能
+- `mapStateToProps` 
+- `mapDispatchToProps`
+
+它们主要是为了让redux使用更加方便而服务的，即使不设置也不影响其功能，前者负责输入逻辑，即将state映射到 UI 组件的参数（props），后者负责输出逻辑，即将用户对 UI 组件的操作映射成 Action
 
 ```jsx
 const VisibleMyComponent = connect(
@@ -788,6 +791,79 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('root')
 )
+```
+
+**bindActionCreators**
+
+`bindActionCreators` 的作用是将一个或多个 action 和 dispatch 组合起来生成 `mapDispatchToProps` 需要生成的内容
+
+```js
+import { bindActionCreators } from 'redux'
+bindActionCreators(
+	actionCreators,			// 一个action对象或者action创建函数
+  dispatch						// 由store或者connect传过来的dispatch方法
+)
+```
+
+传统写 `mapDispatchToProps`
+
+```js
+import {addAction, decAction} from './actions'
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  add: (count) => {dispatch(addAction(count))},		
+  dec: (count) => {dispatch(decAction(count))}
+})
+
+// 使用：props.add(10)
+```
+
+使用 `bindActionCreators` ,这样写和传统写一样，感受不到该功能好处
+
+```js
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  add: 	bindActionCreators(
+    addAction,
+    dispatch
+  ),
+  dec: bindActionCreators(
+    decAction,
+    dispatch
+  )
+})
+
+// 使用：props.add(10)
+```
+
+使用整合的方法编写：
+
+```js
+const mapDispatchToProps = (dispatch, ownProps) => ({
+	actions: bindActionCreators(
+    {
+      addAction,
+      decAction
+  	},
+    dispatch)
+})
+
+// 使用：props.actions.addAction(10)
+```
+
+当使用的 action 的数量越多时，越能感受到 `bindActionCreators` 的好处
+
+```js
+import * as allActions from './actions'
+@connect(
+	state => ({
+    ...
+  }),
+  dispatch => ({
+    actions: bindActionCreators({...allActions},dispatch)
+  })
+)
+function Component() {
+  ...
+}
 ```
 
 
