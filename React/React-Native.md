@@ -415,9 +415,9 @@ export default function UselessTextInput() {
 
 ---
 
-## 其他
+## 设计样式
 
-### 设计样式
+### 规范
 
 `react native` 中写样式不使用 `.css` 文件，而是 `.js` 或 `.ts` 并且借助框架中提供的方法 `StyleSheet.create` 来编写样式文件，或者直接写行内样式
 
@@ -459,13 +459,50 @@ const styles = StyleSheet.create({
 
 
 
+---
+
+### 适配单位
+
+react-native 中不能使用 `vw` 这种相对屏幕的单位，取而代之的相对单位常用的只有 `%` ，如果想要根据屏幕宽高来定位元素，需要手动计算，即先拿到该设备的屏幕大小，然后手动去乘除特定值，来达到 `vw` 的功能
+
+```js
+import EStyleSheet from 'react-native-extended-stylesheet'
+import { Dimensions } from 'react-native';
+
+const { width,height } = Dimensions.get('window');		// 获取到屏幕的宽高
+
+export default EStyleSheet.create({
+  wrap: {
+    width: width / 2,
+    height: 2 * height,
+  }
+})
+```
+
+如使用 `ImageBackground` 来制作组件底图，必须要设置具体的长宽才能显示，这时就可以使用这种方法
+
+```jsx
+const { width,height } = Dimensions.get('window');
+
+<ImageBackground 
+	source={...},
+  resizeMode='cover'			// 制作底图一般这个选cover
+  style={{
+    width: width,
+    height: 3.7 * width		// 宽度等于屏幕宽度，高度的具体值需要慢慢调，这个值实际上就是图片的高/宽的比例
+  }}
+/>
+```
+
+
+
 
 
 
 
 ---
 
-### 设计路由
+## 设计路由
 
 使用 `react-navigation` 来构建路由跳转
 

@@ -56,7 +56,7 @@ yarn add node-sass
 
 ----
 
-### TS组件写法
+### TS组件及类型写法
 
 文件后缀名不是  `.js` 而是 `.tsx`
 
@@ -73,6 +73,18 @@ const Hello = (props: IHelloProps) => {
 }
 export default Hello
 ```
+
+**类组件**
+
+直接在 `Component` 或者 `PureComponent` 上写上规范类型，第一是规范 props 的类型，第二个是规范 state 的类型 
+
+```tsx
+class TestComponent extends Component<any, any> { 
+  ...
+}
+```
+
+**函数组件**
 
 react 提供了一个接口 `React.FunctionComponent` ，它可接受一个泛型，默认为 `{}` ，用于声明有类型约束的函数式组件，规范传入 props 的类型
 
@@ -112,13 +124,138 @@ const Hello:React.FC<IHelloProps> = (props) => {...}
 
 ```tsx
 interface IShowResult {
-    message: string
+  message: string
 	status: string
 }
 
 // 规定了传入props的data对象，即data的属性message和status要满足指定类型
 const Show: React.FC<{data: IShowResult}> = ({data}) => {	// 解构data
     ...
+}
+```
+
+**ComponentClass<P,S>** 
+
+定义类型为一个react类组件，和 `FC` 类似，一般用于高阶组件
+
+```tsx
+import React, { FC,ComponentClass } from 'react';
+
+const Demo = () => {
+  return (Com: FC<any> | ComponentClass<any,any>) => {
+    return (
+    	<Com />
+    )
+  }
+}
+```
+
+**Dispatch<any>**
+
+用于定义dispatch的类型，用于 `dispatch` 方法
+
+```tsx
+import { Dispatch } from 'redux'
+
+connect(
+  (state: any) => ({
+    ...
+  }),
+  (dispatch: Dispatch) => ({
+    ...
+  })
+)
+```
+
+**Context<any>**
+
+规范 Context 的类型，其要传的类型如下
+
+```tsx
+interface Context<T> {
+  Provider: Provider<T>;
+  Consumer: Consumer<T>;
+  displayName?: string;
+}
+```
+
+```tsx
+import React, { Context, createContext } from 'react'
+
+const ProviderContext: Context<any> = createContext('provider')
+
+const Component: FC<any> = () => {
+  return (
+  	 <ProviderContext.Provider value={...}>
+     		...
+     </ProviderContext.Provider >
+  )
+}
+```
+
+**FormEvent**
+
+一个react的form表单event的类型，正常结合antd的Form表单使用
+
+```tsx
+<form onSubmit={(e:FormEvent)=>{
+	    e.preventDefault();//取消默认事件
+}}>
+```
+
+**ChangeEvent<any>**
+
+react的 `onChange` 事件触发的event类型
+
+```tsx
+<input 
+	type="text" 
+	value={count} 
+	onChange={(e: ChangeEvent<HTMLInputElement>) => {
+	   setCount(e.currentTarget.value);//HTMLInputElement表示这个一个html的input节点
+	}} />
+```
+
+**SyntheticEvent<T = Element, E = Event>**
+
+泛型接口,即原生事件的集合，就是原生事件的组合体，在任意事件上都能适用
+
+```tsx
+<button onClick={(e:SyntheticEvent<Element, Event>)=>{}}></button>
+<input onChange={(e:SyntheticEvent<Element, Event>)=>{}}/>
+<form
+  onSubmit={(e: SyntheticEvent<Element, Event>) => {}}
+  onBlur={(e: SyntheticEvent<Element, Event>) => {}}
+  onKeyUp={(e: SyntheticEvent<Element, Event>) => {}}
+>
+```
+
+**MutableRefObject<any>**
+
+定义 `useRef` 的类型
+
+```tsx
+const prctureRef: React.MutableRefObject<any> = useRef();
+```
+
+**useState<any>**
+
+定义 `useState` 类型
+
+```tsx
+const [isShowAdd, setIsShowAdd] = useState<boolean>(false);
+```
+
+**RouteComponentProps**
+
+最常见的路由api的类型定义,里面包含了history,location,match,staticContext这四个路由api的类型定义
+
+```tsx
+import React from 'react';
+import { RouteComponentProps } from 'react-router-dom';
+
+export default function Admin({ history, location,match }: RouteComponentProps) {
+	return(<>这是主页</>);
 }
 ```
 

@@ -1054,7 +1054,7 @@ console.log(arr)	// [ 0, 1, 2, 3 ]
 
 ```jsx
 var array = [1,3,5,7]
-var result = array.filter(item => item > 3)	// result = [5,7]
+var result = array.filter(item => {return item > 3})	// result = [5,7]
 ```
 
 ----

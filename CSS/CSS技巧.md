@@ -296,7 +296,7 @@ line-height: 1.5em
 {
     display: none;		// 元素文档流消失
     visibility: hidden;	// 元素隐藏，文档流保持不动
-    opactity: 0;		// 直接将透明度为0，和visibility功能一样
+    opacity: 0;		// 直接将透明度为0，和visibility功能一样
     transform: scale(0) // 元素缩放至0，和相对定位类似，即使元素放大，其文档流所占大小和位置是不变的  
 }	
 ```
@@ -318,7 +318,7 @@ line-height: 1.5em
 
 - **displaynone ：** 修改元素会造成文档回流，读屏器不会读取`display: none`元素内容，性能消耗较大
 - **visibility:hidden：** 修改元素只会造成本元素的重绘,性能消耗较少读屏器读取`visibility: hidden`元素内容
-- **opacity: 0 ：** 修改元素会造成重绘，性能消耗较少
+- **opacity: 0 ：** 修改元素会造成重绘，性能消耗较少，注意属性是 `0~1`  写成 `100% ` 也是透明的
 
 ----
 

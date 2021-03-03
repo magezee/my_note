@@ -913,6 +913,8 @@ app.listen(3000,'127.0.0.1');       // localhost:3000
 
 ### 路由
 
+**app路由**
+
 ```javascript
 var express = require('express');
 
@@ -933,6 +935,36 @@ app.get('/product',function(req,res){
 
 app.listen(3000,'127.0.0.1'); 
 ```
+
+**route路由**
+
+在express后续更新中，加入了 `route` 来进行路由的额外配置，注意和直接用 app 进行配置路由的区别
+
+```js
+var express = require('express');
+var app = express();
+var router = express.Router();
+
+// 访问localhost:3000/sample时触发
+app.get('/sample', function(req, res) {
+  res.send('this is a sample!');
+});
+
+// 访问localhost:3000/app时触发
+router.get('/', function(req, res) {
+  res.send('home page!');
+});
+
+// 访问localhost:3000/app/about时触发
+router.get('/about', function(req, res) {
+  res.send('about page!');
+});
+
+app.use('/app', router);		// 使用中间件进行配置，如果这里使用的路径是 / 那就和使用app没什么区别
+app.listen(3000);
+```
+
+
 
 
 
@@ -1106,6 +1138,55 @@ app.use('/',function D(){})
 
 // 请求为 /news/app 时 执行顺序为 B() → C()  虽然 D 也可被匹配到 但是因为 C 中没有next(), D 在 C 后声明 所以不会执行 D
 ```
+
+
+
+
+
+
+
+---
+
+### app和route
+
+[**app.use 和 route.use 的区别**](https://blog.csdn.net/zhuyin365/article/details/88353304)
+
+```js
+app.use(path,callback) 		// callback既可以是router对象又可以是函数
+app.get(path,callback)		// callback只能是函数
+```
+
+可以将 `app.get()` 看作 `app.use` 的 `get请求 `的简要写法
+
+```js
+var express = require('express');
+var app = express();
+
+app.get('/hello',function(req,res,next){
+    res.send('hello world!');
+});
+```
+
+等同于
+
+```js
+var express = require('express');
+var app = express();
+var router = express.Router();
+
+router.get('/', function(req, res, next) {  //归根到底还是使用了router的方法
+  res.send('hello world!');
+});
+app.use('/hello',router);
+```
+
+**当一个路径有多个匹配规则时，使用app.use，否则使用相应的app.method(get、post)**
+
+```
+实际上就一句话：get这种的就是配置路由，use这种就是中间件，无论是app还是route去调用他们的处理逻辑是一样的，然后再分清app和route的区别就行
+```
+
+ 
 
 ----
 
@@ -1344,10 +1425,31 @@ router.get('/admin/:aid',async (ctx) => {
 ```js
 // 设定访问/home时返回给前端的内容
 router.get('/home', async(ctx) => {
-   	ctx.status = 200 								// ctx.status 直接设置响应状态码
-	ctx.body = 'abc' 								// ctx.body 直接设置响应body
+  ctx.status = 200 								// ctx.status 直接设置响应状态码
+  // ctx.body 直接设置响应body
+	ctx.body = {
+  	x: 123
+  } 								
 	ctx.set('Content-Type', 'application/zip')		// ctx.set 直接设置响应头
 })
+```
+
+设置在 `ctx.body` 的内容前端获取方式：
+
+- 如果是 `axios` 去请求，会返回一个对象，返回的报文从该对象的 `data` 属性中获取
+
+```js
+axios.get('http://localhost:3000/home', async(res) => {
+  console.log(res.data)	// {x:123}
+})
+```
+
+- 如果是 `fetch` 方式去请求，会返回一个原始数据对象，需要转格式获取
+
+```js
+// 如果是json对象就res.json(),如果是文本对象就res.text() 
+fetch('http://localhost:3000/home').then(res => res.json())
+.then(data => console.log(data))
 ```
 
 

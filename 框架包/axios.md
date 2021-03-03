@@ -41,6 +41,31 @@ $.ajax({
 
 **fetch**
 
+```
+yarn add isomorphic-fetch
+或者
+yarn add node-fetch
+```
+
+```js
+const fetch = require('isomorphic-fetch')
+// or
+const fetch = require('node-fetch')
+```
+
+```js
+fetch('http://localhost:10340/content/render',{
+  method: 'POST',
+  mode: 'cors',
+  body: JSON.stringify({
+    tempId: 'Payment',
+    data: {}
+  })
+}).then(fileData => {
+  console.log(fileData)
+})
+```
+
 用于替代 jquery ajax
 
 fetch不是ajax的进一步封装，而是原生js，Fetch函数就是原生js，没有使用XMLHttpRequest对象

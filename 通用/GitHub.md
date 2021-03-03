@@ -167,6 +167,8 @@ git merge +barnchName
 git branch -d branchName
 	删除分支（处于该分支时不可删除该分支）
 	
+git clone -b branchName +远程仓库地址
+	从远程仓库克隆指定分支的文件
 ```
 
 **分支管理**
