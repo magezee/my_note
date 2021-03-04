@@ -531,7 +531,7 @@ var reg = new RegExp("\\.")  // 使用构造函数时 由于参数是字符串 �
 ```javascript
 /// 例子：去除字符串开头和结尾的空格
 var str = "      hello   world          ";
-str = str.repalce(/^\s*|\s*$/g,"");
+str = str.replace(/^\s*|\s*$/g,"");
 ```
 
 ----
