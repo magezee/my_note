@@ -269,15 +269,25 @@ function (prams:any) {
 let unite: number | string | boolean = 'string';
 ```
 
+----
+
 #### 数组
 
-```typescript
-let arrOfNumber: number[] = [1, 2, 3, 4];
+**规范数组类型的方式：**
+
+- 直接使用数组泛型`Array<T>`
+
+```ts
+const arr: Array<number> = [1, 2, 3]		
+const arr: Array<boolean> = [1, 2, 3]		// 报错
 ```
 
-**元组：若想按顺序规定数组内的元素类型时，使用元组**
+- 使用 `类型[]`，若想按顺序规定数组内的元素类型时，使用元组，但是不能写出长度
 
-但是不能写出长度
+```typescript
+const arr: number[] = [1, 2, 3,]
+const arr: string[] = [1, 2, 3,]			// 报错
+```
 
 ```typescript
 let user: [string, number] = ['string', 1];
@@ -287,6 +297,46 @@ let user_: [string, number] = ['string', 1, 'string'];		// 报错
 ---
 
 #### 函数
+
+**规范函数类型的方式：**
+
+- 用 `Function` 来表示函数类型（只要是函数就行）
+
+```ts
+interface Iobj {
+    foo: Function
+    num: number
+    str?: string
+}
+
+const obj: Iobj = {
+    foo: () => {console.log('hello')},
+    num: 10
+}
+```
+
+- 用接口来规范函数的精确类型（必须满足指定形参和返回值类型的函数）
+
+```ts
+interface Iobj {
+    // 表示foo只能为两个number类型形参，返回为number类型的函数
+    foo: (x: number, y: number) => number
+}
+
+
+const obj: Iobj = {
+    foo: (a: number, b: number): number => {
+        return a + b
+    }
+}
+
+// 报错
+const obj: Iobj = {
+    foo: (a: string, b: string): string => {
+        return a + b
+    }
+}
+```
 
  `?` 可以表示函数的可选属性，但是非可选的参数不能排在可选参数后声明，当给函数参数设定默认值的时候也可表示可选
 
@@ -301,9 +351,7 @@ function add(x: number, y: number = 10, z?: number) {
 }
 ```
 
-声明返回值类型
-
-声明为any或void时可以无返回值，如果不声明则使用第一次声明函数时的返回值作为规则
+声明返回值类型，声明为any或void时可以无返回值，如果不声明则使用第一次声明函数时的返回值作为规则
 
 ```typescript
 function add(): number {
@@ -595,6 +643,22 @@ let mary: Person = {
 }
 
 mary.name = 'jack';		// 报错 
+```
+
+接口的继承
+
+```ts
+interface ILink {
+  description?: string;
+  id?: number;
+  url: string;
+}
+
+// IPost 类型的对象都将具有可选的属性 description、id、url和必填的属性 title 和body
+interface IPost extends ILink {
+  title: string;
+  body: string;
+}
 ```
 
 ----
@@ -1014,8 +1078,6 @@ type Result3 = Demo<ReturnType<typeof test>>    // number & Itest
 
 
 
-
-
 ---
 
 ### 操作类型
@@ -1057,6 +1119,13 @@ function getName(n: NameOrResolver): string {
 
 当编译器不清楚数据的类型时，会默认采取类型推论的策略给对应代码添加上数据类型，如果自己本身比编译器更清楚代码应该拥有的数据类型，则使用类型断言去覆盖编译器的类型推论，即编译器不清楚数据类型时，会直接采用自定义的类型断言，而非去推论类型
 
+类型断言只能够「欺骗」TypeScript 编译器，无法避免运行时的错误，反而滥用类型断言可能会导致运行时错误
+
+- 联合类型可以被断言为其中一个类型
+- 父类可以被断言为子类
+- 任何类型都可以被断言为 any
+- any 可以被断言为任何类型
+
 ```tsx
 // 由于类型是string或者number，因此编译器无法确定input是否会有length属性，number 则无
 function getLength(input: string | number): number {
@@ -1088,6 +1157,7 @@ function getLength(input: string | number): number {
 
 ```tsx
 function getLength(input: string | number): number {
+    // 相当于(input as string).length
     if((<string>input).length) {
         return (<string>input).length
     }else {
@@ -1103,6 +1173,22 @@ function getLength(input: string | number): boolean {
     return (<boolean>input)		// 报错，
 }
 ```
+
+类型断言不是类型转换，它不会真的影响到变量的类型
+
+```ts
+function toBoolean(a:any):boolean{
+  return a as boolean
+}
+toBoolean(1) // 返回值为1
+
+function toBoolean(a:any):boolean{
+  return Boolean(a)
+}
+toBoolean(1) // 返回值为true
+```
+
+
 
 ----
 
