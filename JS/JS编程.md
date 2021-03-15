@@ -820,6 +820,20 @@ fun = (arr) => {
 
 #### 更改
 
+- **转换类数组对象**
+
+```js
+let arrayLike = {
+    0: 'tom', 
+    1: '65',
+    2: '男',
+    3: ['jane','john','Mary'],
+    'length': 4
+}
+let arr = Array.from(arrayLike)
+console.log(arr) // ['tom','65','男',['jane','john','Mary']]
+```
+
 - **通过改变length截取数组**
 
 ```jsx
@@ -980,6 +994,8 @@ const res = arr.flat(Infinity)	// [ 1, 2, 3, 4, 5, 6 ]
 - **map**
 
   遍历数组，对每一个下标内容作出逻辑更改并返回新的数组，map内部需要有return值，这个return值是指将当前遍历的结果返回，进入下一个遍历对象，而不是最终结果
+  
+  `map(currentValue,index,arr)`
 
 ```jsx
 var array = [1,2,3]
