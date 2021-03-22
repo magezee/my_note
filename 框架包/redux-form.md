@@ -346,6 +346,8 @@ export default reduxForm({
 
 dispatch 一个固定的 action创建函数： `change(formname, fieldnam, value)`
 
+注意：value可以为 `'' 或 null` ，但是如果值为 `undefined` 时，就不会正常更改值
+
 ```js
 import { change } from 'redux-form'
 

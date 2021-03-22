@@ -128,6 +128,90 @@ set PORT=3002&&原启动命令
 
 
 
+---
+
+### 更改渲染数据
+
+如果有一个UI组件，通过传入的数据进行数据渲染，现在需要对特殊的一些数据做特殊展示，一般有两种做法：
+
+- 直接在UI组件上更改组件解构
+- 将数据处理好再传入UI组件，UI组件只负责数据渲染
+
+第二种做法的好处是不会使UI组件和数据产生强关联，但是也要保证UI组件处理数据是灵活的，如果展示数据类型恨死就无法做到了
+
+简单例子：在 jsx 中，react组件也是一种普通的数据格式，可以使用其他数据类型进行存储
+
+```jsx
+const data = {
+    reactData: (
+    	<div>
+        	<P>这是一个react数据</P>
+        </div>
+    )
+}
+
+...render() {
+    return (
+    	<div>
+        	{data.reactData}
+        </div>
+    )
+}
+```
+
+利用这种思维，可以直接传进一个已经写好样式的react组件，然后UI组件只负责渲染数据
+
+```jsx
+// UI组件
+import React from 'react'
+
+export default function Form(props) {
+  return (
+    <div>
+      {props.data.map((item) => {
+        return <ui>
+          <li key={Math.random}><span> {item.title}</span></li>
+          <li key={Math.random}>{item.content}</li>
+        </ui>
+      })}
+    </div>
+  )
+}
+```
+
+```jsx
+// 传递数据
+const data = [
+  {
+    title: 'TitleA', content: 'ContentA'
+  },
+  {
+    title: 'TitleB', content: 'ContentB'
+  }
+]
+
+class App extends Component { 
+  render() {
+    const handleData = (data) => {
+      return data.map((item) => ({
+        //  // 先将原来对象中的东西解构确保数据完整，然后覆盖更改原数据
+        ...item,     
+        title: (
+          <span style={{color: 'red'}}>
+            {item.title}
+          </span>
+        )
+      }))
+    }
+    return (
+      <Form data={handleData(data)} />
+    )
+  }
+}
+```
+
+
+
 -----
 
 ### 上传文件
