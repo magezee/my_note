@@ -1104,7 +1104,7 @@ arr.some( function( item, index, array ){
 
 - **find**
 
-  遍历数组，直到返回 true，并返回结果，如果遍历完后都没有返回 true 则返回 undefined
+  遍历数组，直到找到满足条件的项，并返回结果，如果遍历完后都没期望值则返回 undefined
 
 ```js
 let array = [1, 2, 3, 4, 5]

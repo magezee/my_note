@@ -77,9 +77,10 @@ export default class App extends Component {
 
 **路径语法**
 
-- `:paramName` – 匹配一段位于 `/`、`?` 或 `#` 之后的 URL。 命中的部分将被作为一个参数
-- `()` – 在它内部的内容被认为是可选的
-- `*` – 匹配任意字符（非贪婪的）直到命中下一个字符或者整个 URL 的末尾，并创建一个 `splat` 参数
+- `:paramName` ： 匹配一段位于 `/`、`?` 或 `#` 之后的 URL。 命中的部分将被作为一个参数
+- `()` ： 在它内部的内容被认为是可选的
+- `*` ： 匹配任意字符，直到命中下一个字符或者整个 URL 的末尾（非贪婪的匹配）
+- `**` ：匹配任意字符串，直到下一个`/`、`?`、`#`为止（贪婪匹配）
 
 ```js
 <Route path="/hello/:name">         // 匹配 /hello/michael 和 /hello/ryan
@@ -124,7 +125,7 @@ export default class App extends Component {
 
 ---
 
-#### link和NavLink
+#### Link和NavLink
 
 自带的路由跳转超链接，点击跳转到指定路由，to为必须属性
 
@@ -135,8 +136,29 @@ import { Link } from 'react-router-dom';
 ```
 
 ```jsx
-<li><Link to='/home'>跳转到首页</Link></li>
+<Link to='/home'>跳转到首页</Link>
 ```
+
+可以传入 `<a>` 拥有的属性，如从一个新窗口打开
+
+```tsx
+<Link to='/home' target='_blank'>跳转到首页</Link>
+```
+
+to属性可以为一个对象，当写成对象时，可以在 `state` 中传入数据，这样就可以从新打开组件中的 `props.router.state` 中拿到这些数据
+
+```tsx
+<Link 
+  to={{
+    pathname: '/home',
+    state: {
+			data: 123
+		}
+  }}
+>跳转到首页</Link>
+```
+
+
 
 -----
 

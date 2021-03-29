@@ -170,11 +170,7 @@ render{
 
 ### 通用
 
-#### Button - 按钮
-
-```
-https://ant.design/components/button-cn/#API
-```
+#### [Button - 按钮](https://ant.design/components/button-cn/#API)
 
 - icon：设置按钮图标
 - htmlType：设置按钮的原生type值
@@ -190,11 +186,7 @@ https://ant.design/components/button-cn/#API
 
 ### 布局
 
-#### Grid - 栅格
-
-```
-https://ant.design/components/grid-cn/
-```
+#### [Grid - 栅格](https://ant.design/components/grid-cn/)
 
 **基于 Flex 布局**
 
@@ -244,11 +236,7 @@ import { Row, Col } from 'antd';
 
 ----
 
-#### Layout - 布局
-
-```
-https://ant.design/components/layout-cn/#API
-```
+#### [Layout - 布局](https://ant.design/components/layout-cn/#API)
 
 - `Layout`：布局容器，其下可嵌套 `Header` `Sider` `Content` `Footer` 或 `Layout` 本身，可以放在任何父容器中。
 - `Header`：顶部布局，自带默认样式，其下可嵌套任何元素，只能放在 `Layout` 中。
@@ -274,11 +262,7 @@ https://ant.design/components/layout-cn/#API
 
 ### 导航
 
-#### Menu - 导航菜单
-
-```
-https://ant.design/components/menu-cn/#API
-```
+#### [Menu - 导航菜单](https://ant.design/components/menu-cn/#API)
 
 ```jsx
 import { Menu } from 'antd';	
@@ -349,6 +333,8 @@ onMenuClick = ({key}) => {	// 只想用到返回对象的key属性，函数对�
 <Menu onclick={this.onMenuClick}></Menu>
 ```
 
+
+
 -----
 
 #### Pagination - 分页
@@ -371,11 +357,7 @@ onMenuClick = ({key}) => {	// 只想用到返回对象的key属性，函数对�
 
 ### 数据录入
 
-#### From - 表单
-
-```
-https://ant.design/components/form-cn/#API
-```
+#### [From - 表单](https://ant.design/components/form-cn/#API)
 
 基本的表单数据域控制展示，包含布局、初始化、验证、提交，配合 Input, Button, Select 等组件使用
 
@@ -616,11 +598,7 @@ onReset = () => {
 
 ---
 
-#### Input - 输入框
-
-```
-https://ant.design/components/input-cn/#API
-```
+#### [Input - 输入框](https://ant.design/components/input-cn/#API)
 
 Input：
 
@@ -645,11 +623,7 @@ import { UserOutlined } from '@ant-design/icons'
 
 ### 数据展示
 
-#### Table - 表格
-
-```
-https://ant.design/components/table-cn/#API
-```
+#### [Table - 表格](https://ant.design/components/table-cn/#API)
 
 ```jsx
 import { Table, Tag } from 'antd';
@@ -791,11 +765,7 @@ render () {
 
 ----
 
-#### Tag - 标签 
-
-```
-https://ant.design/components/tag-cn/#API
-```
+#### [Tag - 标签](https://ant.design/components/tag-cn/#API) 
 
 **设置颜色**
 
@@ -863,11 +833,7 @@ ReactDOM.render(
 
 ----
 
-####  Tooltip - 文字提示
-
-```
-https://ant.design/components/tooltip-cn/#API
-```
+####  [Tooltip - 文字提示](https://ant.design/components/tooltip-cn/#API)
 
 鼠标移入则显示提示，移出消失，气泡浮层不承载复杂文本和操作，可用来代替系统默认的 `title` 提示，提供一个`按钮/文字/操作`的文案解释
 
@@ -897,11 +863,7 @@ import { Tooltip } from 'antd';
 
 ### 反馈
 
-#### message - 全局提示
-
-```
-https://ant.design/components/message-cn/#API
-```
+#### [message - 全局提示](https://ant.design/components/message-cn/#API)
 
 **种类**
 
@@ -923,11 +885,7 @@ message.warning('This is a warning message')
 
 -----
 
-#### Modal - 对话框
-
-```
-https://ant.design/components/modal-cn/#API
-```
+#### [Modal - 对话框](https://ant.design/components/modal-cn/#API)
 
 ```jsx
 import { Modal } from 'antd';

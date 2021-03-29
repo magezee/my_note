@@ -338,9 +338,9 @@ export default reduxForm({
 
 
 
----
+----
 
-### 其他技巧
+### 操作表单
 
 **手动更改redux中表单<Field>的值**
 
@@ -365,7 +365,36 @@ class Component {
 
 
 
+---
+
+给表单值初始化
+
+```js
+import { initialize } from 'redux-form'
+
+const initData = {
+  formA: 1,
+  formB: 2,
+}
+dispatch(change('Demo', {...initData}))
+
+@reduxForm({form: 'Demo'})
+class Component {
+  render() {
+    return (
+    	<Field name='formA' ... />
+      <Field name'formB' ... />
+    )
+  }
+}
+
+```
+
+
+
 ----
+
+### 其他技巧
 
 **redux-form 失效的问题**
 
