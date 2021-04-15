@@ -376,7 +376,7 @@ const initData = {
   formA: 1,
   formB: 2,
 }
-dispatch(change('Demo', {...initData}))
+dispatch(initialize('Demo', initData))
 
 @reduxForm({form: 'Demo'})
 class Component {
